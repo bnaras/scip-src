@@ -44,11 +44,19 @@
 #include "scip/intervalarith.h"
 #include "scip/set.h"
 #include <iostream>
+#include <sstream>
 #include <time.h>
 #include <stdlib.h>
 #include <numeric>
 #include <string.h>
 #include <algorithm>
+
+/* R-compatible print functions */
+extern "C" {
+extern void Rprintf(const char *, ...);
+extern void REprintf(const char *, ...);
+extern void Rf_error(const char *, ...) __attribute__((noreturn));
+}
 
 #ifdef SCIP_WITH_MPFR
 #include <mpfr.h>
@@ -760,7 +768,7 @@ void SCIPrationalSetString(
       /* convert decimal into fraction */
       if( s.find('.') != std::string::npos )
       {
-         SCIPdebug(std::cout << s << std::endl);
+         SCIPdebug(Rprintf("%s\n", s.c_str()));
 
          if( s[0] == '.' )
             (void) s.insert(0, "0");
@@ -1834,9 +1842,15 @@ void SCIPrationalPrint(
    )
 {
    if( rational == NULL )
-      std::cout << "unknown" << std::flush;
+   {
+      Rprintf("unknown");
+   }
    else
-      std::cout << *rational << std::flush;
+   {
+      std::ostringstream oss;
+      oss << *rational;
+      Rprintf("%s", oss.str().c_str());
+   }
 }
 
 /** printf extension for rationals (not supporting all format options) */
@@ -2357,7 +2371,7 @@ void SCIPrationalComputeApproximationLong(
          res->isinf = FALSE;
          res->isfprepresentable = SCIP_ISFPREPRESENTABLE_UNKNOWN;
 
-         SCIPdebug(std::cout << "approximating " << *src << " by " << *res << std::endl);
+         SCIPdebug({ std::ostringstream _oss; _oss << "approximating " << *src << " by " << *res; Rprintf("%s\n", _oss.str().c_str()); });
 
          return;
       }
@@ -2381,8 +2395,8 @@ void SCIPrationalComputeApproximationLong(
 
       done = 0;
 
-      SCIPdebug(std::cout << "approximating " << *src << " by continued fractions with maxdenom " << maxdenom << std::endl);
-      SCIPdebug(std::cout << "confrac initial values: p0 " << p[1] << " q0 " << q[1] << " p1 " << p[2] << " q1 " << q[2] << std::endl);
+      SCIPdebug({ std::ostringstream _oss; _oss << "approximating " << *src << " by continued fractions with maxdenom " << maxdenom; Rprintf("%s\n", _oss.str().c_str()); });
+      SCIPdebug({ std::ostringstream _oss; _oss << "confrac initial values: p0 " << p[1] << " q0 " << q[1] << " p1 " << p[2] << " q1 " << q[2]; Rprintf("%s\n", _oss.str().c_str()); });
 
       /* if q is already big, skip loop */
       if( q[2] > maxdenom )
@@ -2409,7 +2423,7 @@ void SCIPrationalComputeApproximationLong(
          p[2] = p[0] + p[1] * ai;
          q[2] = q[0] + q[1] * ai;
 
-         SCIPdebug(std::cout << "ai " << ai << " pi " << p[2] << " qi " << q[2] << std::endl);
+         SCIPdebug({ std::ostringstream _oss; _oss << "ai " << ai << " pi " << p[2] << " qi " << q[2]; Rprintf("%s\n", _oss.str().c_str()); });
 
          if( q[2] > maxdenom )
             done = 1;
@@ -2431,9 +2445,9 @@ void SCIPrationalComputeApproximationLong(
             }
             else
             {
-               SCIPdebug(std::cout << " picking semiconvergent " << std::endl);
+               SCIPdebug(Rprintf(" picking semiconvergent \n"));
                chooseSemiconvLong(resnum, resden, p, q, 1, maxdenom);
-               SCIPdebug(std::cout << " use " << resnum << "/" << resden << std::endl);
+               SCIPdebug({ std::ostringstream _oss; _oss << " use " << resnum << "/" << resden; Rprintf("%s\n", _oss.str().c_str()); });
                res->val = scip::Rational(resnum,resden) * sign;
             }
          }
@@ -2444,8 +2458,8 @@ void SCIPrationalComputeApproximationLong(
                chooseSemiconvLong(resnum, resden, p, q, 1, maxdenom);
             else
                chooseSemiconvLong(resnum, resden, p, q, ai, maxdenom);
-            SCIPdebug(std::cout << " picking semiconvergent " << std::endl);
-            SCIPdebug(std::cout << " use " << resnum << "/" << resden << std::endl);
+            SCIPdebug(Rprintf(" picking semiconvergent \n"));
+            SCIPdebug({ std::ostringstream _oss; _oss << " use " << resnum << "/" << resden; Rprintf("%s\n", _oss.str().c_str()); });
             res->val = scip::Rational(resnum,resden) * sign;
          }
       }
@@ -2562,7 +2576,7 @@ void SCIPrationalComputeApproximation(
          res->isinf = FALSE;
          res->isfprepresentable = SCIP_ISFPREPRESENTABLE_UNKNOWN;
 
-         SCIPdebug(std::cout << "approximating " << *src << " by " << *res << std::endl);
+         SCIPdebug({ std::ostringstream _oss; _oss << "approximating " << *src << " by " << *res; Rprintf("%s\n", _oss.str().c_str()); });
 
          return;
       }
@@ -2583,8 +2597,8 @@ void SCIPrationalComputeApproximation(
 
       done = 0;
 
-      SCIPdebug(std::cout << "approximating " << *src << " by continued fractions with maxdenom " << maxdenom << std::endl);
-      SCIPdebug(std::cout << "confrac initial values: p0 " << p[1] << " q0 " << q[1] << " p1 " << p[2] << " q1 " << q[2] << std::endl);
+      SCIPdebug({ std::ostringstream _oss; _oss << "approximating " << *src << " by continued fractions with maxdenom " << maxdenom; Rprintf("%s\n", _oss.str().c_str()); });
+      SCIPdebug({ std::ostringstream _oss; _oss << "confrac initial values: p0 " << p[1] << " q0 " << q[1] << " p1 " << p[2] << " q1 " << q[2]; Rprintf("%s\n", _oss.str().c_str()); });
 
       /* if q is already big, skip loop */
       if( q[2] > maxdenom )
@@ -2609,7 +2623,7 @@ void SCIPrationalComputeApproximation(
          p[2] = p[0] + p[1] * ai;
          q[2] = q[0] + q[1] * ai;
 
-         SCIPdebug(std::cout << "ai " << ai << " pi " << p[2] << " qi " << q[2] << std::endl);
+         SCIPdebug({ std::ostringstream _oss; _oss << "ai " << ai << " pi " << p[2] << " qi " << q[2]; Rprintf("%s\n", _oss.str().c_str()); });
 
          if( q[2] > maxdenom )
             done = 1;
@@ -2631,9 +2645,9 @@ void SCIPrationalComputeApproximation(
             }
             else
             {
-               SCIPdebug(std::cout << " picking semiconvergent " << std::endl);
+               SCIPdebug(Rprintf(" picking semiconvergent \n"));
                chooseSemiconv(resnum, resden, p, q, 1, scip::Integer(maxdenom));
-               SCIPdebug(std::cout << " use " << resnum << "/" << resden << std::endl);
+               SCIPdebug({ std::ostringstream _oss; _oss << " use " << resnum << "/" << resden; Rprintf("%s\n", _oss.str().c_str()); });
                res->val = scip::Rational(resnum,resden) * sign;
             }
          }
@@ -2644,8 +2658,8 @@ void SCIPrationalComputeApproximation(
                chooseSemiconv(resnum, resden, p, q, 1, scip::Integer(maxdenom));
             else
                chooseSemiconv(resnum, resden, p, q, ai, scip::Integer(maxdenom));
-            SCIPdebug(std::cout << " picking semiconvergent " << std::endl);
-            SCIPdebug(std::cout << " use " << resnum << "/" << resden << std::endl);
+            SCIPdebug(Rprintf(" picking semiconvergent \n"));
+            SCIPdebug({ std::ostringstream _oss; _oss << " use " << resnum << "/" << resden; Rprintf("%s\n", _oss.str().c_str()); });
             res->val = scip::Rational(resnum,resden) * sign;
          }
       }

@@ -37,6 +37,10 @@
 /*   #define ONE_WORD_SETS  not sure about this!  See notes.txt.  */
 #include "nausparse.h"
 
+/* R-compatible error and print functions */
+extern void Rf_error(const char *, ...) __attribute__((noreturn));
+extern void REprintf(const char *, ...);
+
     /* macros for hash-codes: */
 #define MASH(l,i) ((((l) ^ 065435) + (i)) & 077777)
     /* : expression whose long value depends only on long l and int/long i.
@@ -1397,8 +1401,7 @@ sg_to_nauty(sparsegraph *sg, graph *g, int reqm, int *pm)
     n = sg->nv;
     if (reqm != 0 && reqm*WORDSIZE < n)
     {
-        fprintf(ERRFILE,"sg_to_nauty: reqm is impossible\n");
-        exit(1);
+        Rf_error("sg_to_nauty: reqm is impossible");
     }
 
     if (reqm != 0) m = reqm;
@@ -1410,8 +1413,7 @@ sg_to_nauty(sparsegraph *sg, graph *g, int reqm, int *pm)
     {
         if ((g = (graph*)ALLOCS(n,m*sizeof(graph))) == NULL)
         {
-            fprintf(ERRFILE,"sg_to_nauty: malloc failed\n");
-            exit(1);
+            Rf_error("sg_to_nauty: malloc failed");
         }
     }
 
@@ -1449,8 +1451,7 @@ copy_sg(sparsegraph *sg1, sparsegraph *sg2)
     {
         if ((sg2 = (sparsegraph*)ALLOCS(1,sizeof(sparsegraph))) == NULL)
         {
-            fprintf(ERRFILE,"copy_sg: malloc failed\n");
-            exit(1);
+            Rf_error("copy_sg: malloc failed");
         }
         SG_INIT(*sg2);
     }
@@ -1504,8 +1505,7 @@ nauty_to_sg(graph *g, sparsegraph *sg, int m, int n)
     {
         if ((sg = (sparsegraph*)ALLOCS(1,sizeof(sparsegraph))) == NULL)
         {
-            fprintf(ERRFILE,"nauty_to_sg: malloc failed\n");
-            exit(1);
+            Rf_error("nauty_to_sg: malloc failed");
         }
         SG_INIT(*sg);
     }
@@ -1687,8 +1687,7 @@ sparsenauty(sparsegraph *g, int *lab, int *ptn, int *orbits,
 
     if (options->dispatch != &dispatch_sparse)
     {
-        fprintf(ERRFILE,"Error: sparsenauty() needs standard options block\n");
-        exit(1);
+        Rf_error("Error: sparsenauty() needs standard options block");
     }
 
     n = g->nv;
@@ -1707,7 +1706,7 @@ sparsenauty(sparsegraph *g, int *lab, int *ptn, int *orbits,
 /*****************************************************************************
 *                                                                            *
 *  nausparse_check() checks that this file is compiled compatibly with the   *
-*  given parameters.   If not, call exit(1).                                 *
+*  given parameters.   If not, call Rf_error().                              *
 *                                                                            *
 *****************************************************************************/
 
@@ -1716,28 +1715,24 @@ nausparse_check(int wordsize, int m, int n, int version)
 {
     if (wordsize != WORDSIZE)
     {
-        fprintf(ERRFILE,"Error: WORDSIZE mismatch in nausparse.c\n");
-        exit(1);
+        Rf_error("Error: WORDSIZE mismatch in nausparse.c");
     }
 
 #if MAXN
     if (m > MAXM)
     {
-        fprintf(ERRFILE,"Error: MAXM inadequate in nausparse.c\n");
-        exit(1);
+        Rf_error("Error: MAXM inadequate in nausparse.c");
     }
 
     if (n > MAXN)
     {
-        fprintf(ERRFILE,"Error: MAXN inadequate in nausparse.c\n");
-        exit(1);
+        Rf_error("Error: MAXN inadequate in nausparse.c");
     }
 #endif
 
     if (version < NAUTYREQUIRED)
     {
-        fprintf(ERRFILE,"Error: nausparse.c version mismatch\n");
-        exit(1);
+        Rf_error("Error: nausparse.c version mismatch");
     }
 }
 

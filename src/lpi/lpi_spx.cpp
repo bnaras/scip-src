@@ -64,7 +64,7 @@
                                               SCIPmessagePrintWarning(_messagehdlr, "CPLEX error <%d>; SoPlex result unchecked\n", _cpxstat_); \
                                               if( EXIT_AT_CPXERROR )                                                        \
                                               {                                                                             \
-                                                 exit(1);                                                                   \
+                                                 Rf_error("CPLEX error in SoPlex check");                                  \
                                               }                                                                             \
                                               else                                                                          \
                                               {                                                                             \
@@ -132,6 +132,13 @@
 #define SOPLEX_VERBLEVEL                5    /**< verbosity level for LPINFO */
 
 #include "scip/pub_message.h"
+
+/* R-compatible error and print functions */
+extern "C" {
+extern void Rprintf(const char *, ...);
+extern void REprintf(const char *, ...);
+extern void Rf_error(const char *, ...) __attribute__((noreturn));
+}
 
 /********************************************************************/
 /*----------------------------- C++ --------------------------------*/
@@ -580,7 +587,7 @@ public:
             SCIPerrorMessage("In %s: SoPlex status=%d (%s) while CPLEX status=%d (%s)\n",
                _probname, spxStatus, spxStatusString(spxStatus), cpxstat, cpxStatusString(cpxstat));
             if( EXIT_AT_CPXERROR )
-               exit(1);
+               Rf_error("CPLEX error: inconsistent status in SoPlex check");
          }
          else if( (spxStatus == SPxSolver::OPTIMAL && cpxstat != CPX_STAT_OPTIMAL)
             || (spxStatus == SPxSolver::UNBOUNDED && cpxstat != CPX_STAT_UNBOUNDED)
@@ -589,7 +596,7 @@ public:
             SCIPerrorMessage("In %s: SoPlex status=%d (%s) while CPLEX status=%d (%s) (checknum=%d)\n",
                _probname, spxStatus, spxStatusString(spxStatus), cpxstat, cpxStatusString(cpxstat), _checknum);
             if( EXIT_AT_WRONG_RESULT )
-               exit(1);
+               Rf_error("SoPlex/CPLEX result mismatch");
          }
          else if( spxStatus == SPxSolver::ABORT_VALUE )
          {
@@ -603,7 +610,7 @@ public:
                      _probname, spxStatus, spxStatusString(spxStatus), cpxobj, minimize ? "<" : ">",
                      minimize ? objLimitUpper : objLimitLower, cpxStatusString(cpxstat), _checknum);
                   if( EXIT_AT_WRONG_RESULT )
-                     exit(1);
+                     Rf_error("SoPlex/CPLEX result mismatch");
                }
                else if( (minimize && cpxobj < objLimitUpper) || (!minimize && cpxobj > objLimitLower) )
                {
@@ -627,7 +634,7 @@ public:
                SCIPerrorMessage("In %s: SoPlex status=%d (%s) while CPLEX status=%d (%s) (checknum=%d)\n",
                   _probname, spxStatus, spxStatusString(spxStatus), cpxstat, cpxStatusString(cpxstat), _checknum);
                if( EXIT_AT_WRONG_RESULT )
-                  exit(1);
+                  Rf_error("SoPlex/CPLEX result mismatch");
                break;
             case CPX_STAT_INForUNBD:
             default:
@@ -651,7 +658,7 @@ public:
                SCIPerrorMessage("In %s: LP optimal; SoPlex value=%.10f %s CPLEX value=%.10f suboptimal (checknum=%d)\n", _probname, objValueReal(),
                   minimize ? ">" : "<", cpxobj, _checknum);
                if( EXIT_AT_WRONG_RESULT )
-                  exit(1);
+                  Rf_error("SoPlex/CPLEX result mismatch");
             }
          }
       }

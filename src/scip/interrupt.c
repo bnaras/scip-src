@@ -40,6 +40,9 @@
 #include "blockmemshell/memory.h"
 #include "scip/interrupt.h"
 
+/* R-compatible error function */
+extern void Rf_error(const char *, ...) __attribute__((noreturn));
+
 
 static volatile
 int                      ninterrupts = 0;    /**< static variable counting the number of CTRL-C interrupts */
@@ -78,8 +81,7 @@ void interruptHandler(
    ninterrupts++;
    if( ninterrupts >= 5 )
    {
-      printf("pressed CTRL-C %d times. forcing termination.\n", ninterrupts);
-      exit(1);
+      Rf_error("pressed CTRL-C %d times. forcing termination.", ninterrupts);
    }
    else
    {

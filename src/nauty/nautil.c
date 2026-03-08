@@ -68,6 +68,10 @@
 #include "io.e"
 #endif
 
+/* R-compatible error and print functions */
+extern void Rf_error(const char *, ...) __attribute__((noreturn));
+extern void REprintf(const char *, ...);
+
     /* macros for hash-codes: */
     /* Don't use NAUTY_INFINITY here as that would make the canonical
      * labelling depend on whether BIGNAUTY is in operation */
@@ -688,7 +692,7 @@ writegroupsize(FILE *f, double gpsize1, int gpsize2)
 /*****************************************************************************
 *                                                                            *
 *  nautil_check() checks that this file is compiled compatibly with the      *
-*  given parameters.   If not, call exit(1).                                 *
+*  given parameters.   If not, call Rf_error().                              *
 *                                                                            *
 *****************************************************************************/
 
@@ -697,28 +701,24 @@ nautil_check(int wordsize, int m, int n, int version)
 {
     if (wordsize != WORDSIZE)
     {
-        fprintf(ERRFILE,"Error: WORDSIZE mismatch in nautil.c\n");
-        exit(1);
+        Rf_error("Error: WORDSIZE mismatch in nautil.c");
     }
 
 #if MAXN
     if (m > MAXM)
     {
-        fprintf(ERRFILE,"Error: MAXM inadequate in nautil.c\n");
-        exit(1);
+        Rf_error("Error: MAXM inadequate in nautil.c");
     }
 
     if (n > MAXN)
     {
-        fprintf(ERRFILE,"Error: MAXN inadequate in nautil.c\n");
-        exit(1);
+        Rf_error("Error: MAXN inadequate in nautil.c");
     }
 #endif
 
     if (version < NAUTYREQUIRED)
     {
-        fprintf(ERRFILE,"Error: nautil.c version mismatch\n");
-        exit(1);
+        Rf_error("Error: nautil.c version mismatch");
     }
 }
 
@@ -731,8 +731,7 @@ nautil_check(int wordsize, int m, int n, int version)
 void
 alloc_error(const char *s)
 {
-    fprintf(ERRFILE,"Dynamic allocation failed: %s\n",s);
-    exit(2);
+    Rf_error("Dynamic allocation failed: %s",s);
 }
 
 /*****************************************************************************
