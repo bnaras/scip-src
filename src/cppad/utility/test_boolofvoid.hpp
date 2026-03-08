@@ -107,27 +107,27 @@ public:
 	width_(width) ,
 	n_ok_(0)      ,
 	n_error_(0)
-	{	std::cout << "Begin test group " << group_ << std::endl; }
+	{	r_cout() << "Begin test group " << group_ << std::endl; }
 	/// destructor
 	~test_boolofvoid(void)
-	{	std::cout << "End test group " << group_ << std::endl; }
+	{	r_cout() << "End test group " << group_ << std::endl; }
 	/// run one test
 	bool operator()(bool test(void), const std::string& name)
 	{	CPPAD_ASSERT_KNOWN(
 			name.size() < width_ ,
 			"test_boolofvoid: name does not have less characters than width"
 		);
-		std::cout.width( width_ );
-		std::cout.setf( std::ios_base::left );
-		std::cout << name;
+		r_cout().width( width_ );
+		r_cout().setf( std::ios_base::left );
+		r_cout() << name;
 		//
 		bool ok = test();
 		if( ok )
-		{	std::cout << "OK" << std::endl;
+		{	r_cout() << "OK" << std::endl;
 			n_ok_++;
 		}
 		else
-		{	std::cout << "Error" << std::endl;
+		{	r_cout() << "Error" << std::endl;
 			n_error_++;
 		}
 		return ok;
@@ -141,22 +141,22 @@ public:
 	/// summary
 	bool summary(bool memory_ok )
 	{
-		std::cout.width( width_ );
-		std::cout.setf( std::ios_base::left );
-		std::cout << "memory_leak";
+		r_cout().width( width_ );
+		r_cout().setf( std::ios_base::left );
+		r_cout() << "memory_leak";
 		//
 		if( memory_ok  )
-		{	std::cout << "OK" << std::endl;
+		{	r_cout() << "OK" << std::endl;
 			n_ok_++;
 		}
 		else
-		{	std::cout << "Error" << std::endl;
+		{	r_cout() << "Error" << std::endl;
 			n_error_++;
 		}
 		if( n_error_ == 0 )
-			std::cout << "All " << n_ok_ << " tests passed." << std::endl;
+			r_cout() << "All " << n_ok_ << " tests passed." << std::endl;
 		else
-			std::cout << n_error_ << " tests failed." << std::endl;
+			r_cout() << n_error_ << " tests failed." << std::endl;
 		//
 		return n_error_ == 0;
 	}

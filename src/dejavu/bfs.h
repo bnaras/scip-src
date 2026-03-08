@@ -185,7 +185,7 @@ namespace dejavu {
                         local_state.singleton_automorphism_base(&gl_automorphism);
                         const bool certify_sparse = local_state.certify(g, gl_automorphism);
                         if(certify_sparse)  {
-                            std::cout << "found here" << std::endl;
+                            r_cout() << "found here" << std::endl;
                             if (hook)
                                 (*hook)(g->v_size, gl_automorphism.perm(), gl_automorphism.nsupport(),
                                         gl_automorphism.support());

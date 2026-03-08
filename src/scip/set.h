@@ -1817,7 +1817,7 @@ SCIP_Bool SCIPsetGetSubscipsOff(
 
 /** prints a debug message */
 #ifdef __GNUC__
-__attribute__((format(printf, 4, 5)))
+__attribute__((format(__printf__, 4, 5)))
 #endif
 SCIP_EXPORT
 void SCIPsetPrintDebugMessage(
@@ -1830,7 +1830,7 @@ void SCIPsetPrintDebugMessage(
 
 /** prints a debug message without precode */
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT
 void SCIPsetDebugMessagePrint(

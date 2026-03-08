@@ -47,7 +47,7 @@ SCIP_EXPORT SCIP_FILE* SCIPfdopen(int fildes, const char *mode);
 SCIP_EXPORT size_t SCIPfread(void *ptr, size_t size, size_t nmemb, SCIP_FILE *stream);
 SCIP_EXPORT size_t SCIPfwrite(const void *ptr, size_t size, size_t nmemb, SCIP_FILE *stream);
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT int SCIPfprintf(SCIP_FILE *stream, const char *format, ...);
 SCIP_EXPORT int SCIPfputc(int c, SCIP_FILE *stream);

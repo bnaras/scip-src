@@ -203,7 +203,7 @@ void forward2sweep(
 	CPPAD_ASSERT_UNKNOWN( op == BeginOp );
 # if CPPAD_FORWARD2SWEEP_TRACE
 	bool user_trace  = false;
-	std::cout << std::endl;
+	r_cout() << std::endl;
 	CppAD::vector<Base> Z_vec(q+1);
 # endif
 	bool flag; // a temporary flag to use in switch cases
@@ -715,7 +715,7 @@ void forward2sweep(
 			for(i = 0; i < user_m; i++) if( user_iy[i] > 0 )
 			{	size_t i_tmp   = (i_op + i) - user_m;
 				printOp(
-					std::cout,
+					r_cout(),
 					play,
 					i_tmp,
 					user_iy[i],
@@ -725,11 +725,11 @@ void forward2sweep(
 				Base* Z_tmp = taylor + user_iy[i]*((J-1) * r + 1);
 				{	Z_vec[0]    = Z_tmp[0];
 					for(ell = 0; ell < r; ell++)
-					{	std::cout << std::endl << "     ";
+					{	r_cout() << std::endl << "     ";
 						for(size_t p_tmp = 1; p_tmp <= q; p_tmp++)
 							Z_vec[p_tmp] = Z_tmp[(p_tmp-1)*r+ell+1];
 						printOpResult(
-							std::cout,
+							r_cout(),
 							q + 1,
 							Z_vec.data(),
 							0,
@@ -737,12 +737,12 @@ void forward2sweep(
 						);
 					}
 				}
-				std::cout << std::endl;
+				r_cout() << std::endl;
 			}
 		}
 		if( op != UsrrvOp )
 		{	printOp(
-				std::cout,
+				r_cout(),
 				play,
 				i_op,
 				i_var,
@@ -757,11 +757,11 @@ void forward2sweep(
 			if( Z_tmp != CPPAD_NULL )
 			{	Z_vec[0]    = Z_tmp[0];
 				for(ell = 0; ell < r; ell++)
-				{	std::cout << std::endl << "     ";
+				{	r_cout() << std::endl << "     ";
 					for(size_t p_tmp = 1; p_tmp <= q; p_tmp++)
 						Z_vec[p_tmp] = Z_tmp[ (p_tmp-1)*r + ell + 1];
 					printOpResult(
-						std::cout,
+						r_cout(),
 						q + 1,
 						Z_vec.data(),
 						0,
@@ -769,10 +769,10 @@ void forward2sweep(
 					);
 				}
 			}
-			std::cout << std::endl;
+			r_cout() << std::endl;
 		}
 	}
-	std::cout << std::endl;
+	r_cout() << std::endl;
 # else
 	}
 # endif

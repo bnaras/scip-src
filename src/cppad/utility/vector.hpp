@@ -306,7 +306,7 @@ $codep
 	size_t i;
 	for(i = 0; i < 3; i++)
 		x[i] = 4. - i;
-	std::cout << "x = " << x << std::endl;
+	r_cout() << "x = " << x << std::endl;
 $$
 
 $end

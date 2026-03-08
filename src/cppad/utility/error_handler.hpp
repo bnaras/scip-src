@@ -188,25 +188,21 @@ private:
 		const char *file ,
 		const char *exp  ,
 		const char *msg  )
-	{	using std::cerr;
-		using std::endl;
+	{	using std::endl;
 
-		cerr << CPPAD_PACKAGE_STRING;
+		r_cerr() << CPPAD_PACKAGE_STRING;
 		if( known )
-			cerr << " error from a known source:" << endl;
-		else	cerr << " error from unknown source"  << endl;
+			r_cerr() << " error from a known source:" << endl;
+		else	r_cerr() << " error from unknown source"  << endl;
 		if( msg[0] != '\0' )
-			cerr << msg << endl;
-		cerr << "Error detected by false result for"  << endl;
-		cerr << "    "     << exp                     << endl;
-		cerr << "at line " << line << " in the file " << endl;
-		cerr << "    "     << file                    << endl;
+			r_cerr() << msg << endl;
+		r_cerr() << "Error detected by false result for"  << endl;
+		r_cerr() << "    "     << exp                     << endl;
+		r_cerr() << "at line " << line << " in the file " << endl;
+		r_cerr() << "    "     << file                    << endl;
 
 		// terminate program execution
-		assert(false);
-
-		// termination when NDEBUG is defined
-		std::exit(1);
+		Rf_error("CppAD error");
 	}
 
 	// current error handler

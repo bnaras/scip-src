@@ -295,30 +295,28 @@ public:
 	static void Print(TrackElement* E)
 	{
 		CPPAD_ASSERT_UNKNOWN( ! thread_alloc::in_parallel() );
-		using std::cout;
-		cout << "E = "         << E;
-		cout << ", E->next = " << E->next;
-		cout << ", E->ptr  = " << E->ptr;
-		cout << ", E->line = " << E->line;
-		cout << ", E->file = " << E->file;
-		cout << std::endl;
+		r_cout() << "E = "         << E;
+		r_cout() << ", E->next = " << E->next;
+		r_cout() << ", E->ptr  = " << E->ptr;
+		r_cout() << ", E->line = " << E->line;
+		r_cout() << ", E->file = " << E->file;
+		r_cout() << std::endl;
 	}
 
 	// Print the linked list for a thread
 	static void Print(void)
 	{
 		CPPAD_ASSERT_UNKNOWN( ! thread_alloc::in_parallel() );
-		using std::cout;
 		using std::endl;
 		TrackElement *E = Root();
 		// convert int(size_t) to avoid warning on _MSC_VER systems
-		cout << "Begin Track List" << endl;
+		r_cout() << "Begin Track List" << endl;
 		while( E->next != CPPAD_NULL )
 		{	E = E->next;
 			Print(E);
 		}
-		cout << "End Track List:" << endl;
-		cout << endl;
+		r_cout() << "End Track List:" << endl;
+		r_cout() << endl;
 	}
 };
 
@@ -358,7 +356,7 @@ inline Type *TrackNewVec(
 # if CPPAD_TRACK_DEBUG
 	static bool first = true;
 	if( first )
-	{	std::cout << "NDEBUG is defined for TrackNewVec" << std::endl;
+	{	r_cout() << "NDEBUG is defined for TrackNewVec" << std::endl;
 		first = false;
 	}
 # endif
@@ -400,7 +398,7 @@ Type *TrackNewVec(
 	root->next = E;
 
 # if CPPAD_TRACK_DEBUG
-	std::cout << "TrackNewVec: ";
+	r_cout() << "TrackNewVec: ";
 	TrackElement::Print(E);
 # endif
 
@@ -417,7 +415,7 @@ inline void TrackDelVec(const char *file, int line, Type *oldptr)
 # if CPPAD_TRACK_DEBUG
 	static bool first = true;
 	if( first )
-	{	std::cout << "NDEBUG is defined in TrackDelVec" << std::endl;
+	{	r_cout() << "NDEBUG is defined in TrackDelVec" << std::endl;
 		first = false;
 	}
 # endif
@@ -456,7 +454,7 @@ void TrackDelVec(
 	);
 
 # if CPPAD_TRACK_DEBUG
-	std::cout << "TrackDelVec: ";
+	r_cout() << "TrackDelVec: ";
 	TrackElement::Print(E);
 # endif
 
@@ -489,13 +487,12 @@ Type *TrackExtend(
 	);
 
 # if CPPAD_TRACK_DEBUG
-	using std::cout;
-	cout << "TrackExtend: file = " << file;
-	cout << ", line = " << line;
-	cout << ", newlen = " << newlen;
-	cout << ", ncopy = " << ncopy;
-	cout << ", oldptr = " << oldptr;
-	cout << std::endl;
+	r_cout() << "TrackExtend: file = " << file;
+	r_cout() << ", line = " << line;
+	r_cout() << ", newlen = " << newlen;
+	r_cout() << ", ncopy = " << ncopy;
+	r_cout() << ", oldptr = " << oldptr;
+	r_cout() << std::endl;
 # endif
 	CPPAD_ASSERT_KNOWN(
 		ncopy <= newlen,

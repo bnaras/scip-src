@@ -33,8 +33,8 @@
     #define OS_LINUX
 #endif
 
-#define PRINT_NO_NEWLINE(str) std::cout << str << std::flush;
-#define PRINT(str) std::cout << str << std::endl;
+#define PRINT_NO_NEWLINE(str) r_cout() << str << std::flush;
+#define PRINT(str) r_cout() << str << std::endl;
 
 #ifdef DEJDEBUG
 #define dej_assert(expr) (assert(expr))

@@ -177,7 +177,7 @@ void for_hes_sweep(
 	bool more_operators = true;
 # if CPPAD_FOR_HES_SWEEP_TRACE
 	vector<size_t> user_usrrp; // parameter index for UsrrpOp operators
-	std::cout << std::endl;
+	r_cout() << std::endl;
 	CppAD::vectorBool zf_value(limit);
 	CppAD::vectorBool zh_value(limit * limit);
 # endif
@@ -494,7 +494,7 @@ void for_hes_sweep(
 				}
 				// k_var is zero when there is no result
 				printOp(
-					std::cout,
+					r_cout(),
 					play,
 					i_op - user_m + k,
 					k_var,
@@ -502,13 +502,13 @@ void for_hes_sweep(
 					arg_tmp
 				);
 				if( k_var > 0 ) printOpResult(
-					std::cout,
+					r_cout(),
 					1,
 					&zf_value,
 					1,
 					&zh_value
 				);
-				std::cout << std::endl;
+				r_cout() << std::endl;
 			}
 		}
 		for(i = 0; i < limit; i++)
@@ -535,7 +535,7 @@ void for_hes_sweep(
 		delay_print     |= op == UsrrvOp;
 		if( ! delay_print )
 		{	 printOp(
-				std::cout,
+				r_cout(),
 				play,
 				i_op,
 				i_var,
@@ -543,16 +543,16 @@ void for_hes_sweep(
 				arg
 			);
 			if( NumRes(op) > 0 && (! delay_print) ) printOpResult(
-				std::cout,
+				r_cout(),
 				1,
 				&zf_value,
 				1,
 				&zh_value
 			);
-			std::cout << std::endl;
+			r_cout() << std::endl;
 		}
 	}
-	std::cout << std::endl;
+	r_cout() << std::endl;
 # else
 	}
 # endif

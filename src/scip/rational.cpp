@@ -43,7 +43,7 @@
 #include "scip/pub_misc.h"
 #include "scip/intervalarith.h"
 #include "scip/set.h"
-#include <iostream>
+#include <ostream>
 #include <sstream>
 #include <time.h>
 #include <stdlib.h>

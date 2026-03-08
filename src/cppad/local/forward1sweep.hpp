@@ -296,7 +296,7 @@ void forward1sweep(
 	//
 # if CPPAD_FORWARD1SWEEP_TRACE
 	bool user_trace = false;
-	std::cout << std::endl;
+	r_cout() << std::endl;
 # endif
 	//
 	bool flag; // a temporary flag to use in switch cases
@@ -992,7 +992,7 @@ void forward1sweep(
 			for(i = 0; i < user_m; i++) if( user_iy[i] > 0 )
 			{	size_t i_tmp   = (i_op + i) - user_m;
 				printOp(
-					std::cout,
+					r_cout(),
 					play,
 					i_tmp,
 					user_iy[i],
@@ -1001,20 +1001,20 @@ void forward1sweep(
 				);
 				Base* Z_tmp = taylor + user_iy[i] * J;
 				printOpResult(
-					std::cout,
+					r_cout(),
 					q + 1,
 					Z_tmp,
 					0,
 					(Base *) CPPAD_NULL
 				);
-				std::cout << std::endl;
+				r_cout() << std::endl;
 			}
 		}
 		Base*           Z_tmp   = taylor + J * i_var;
 		if( op != UsrrvOp )
 		{
 			printOp(
-				std::cout,
+				r_cout(),
 				play,
 				i_op,
 				i_var,
@@ -1022,16 +1022,16 @@ void forward1sweep(
 				arg
 			);
 			if( NumRes(op) > 0 ) printOpResult(
-				std::cout,
+				r_cout(),
 				q + 1,
 				Z_tmp,
 				0,
 				(Base *) CPPAD_NULL
 			);
-			std::cout << std::endl;
+			r_cout() << std::endl;
 		}
 	}
-	std::cout << std::endl;
+	r_cout() << std::endl;
 # else
 	}
 # endif

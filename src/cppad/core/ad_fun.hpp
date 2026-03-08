@@ -322,7 +322,7 @@ public:
 	/// forward mode user API, multiple directions one order.
 	template <typename VectorBase>
 	VectorBase Forward(size_t q,
-		const VectorBase& x, std::ostream& s = std::cout
+		const VectorBase& x, std::ostream& s = r_cout()
 	);
 
 	/// reverse mode sweep

@@ -328,7 +328,7 @@ SCIP_RETCODE SCIPstatUpdateVarRootLPBestEstimate(
 
 /** prints a debug message */
 #ifdef __GNUC__
-__attribute__((format(printf, 4, 5)))
+__attribute__((format(__printf__, 4, 5)))
 #endif
 SCIP_EXPORT
 void SCIPstatPrintDebugMessage(
@@ -341,7 +341,7 @@ void SCIPstatPrintDebugMessage(
 
 /** prints a debug message without precode */
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT
 void SCIPstatDebugMessagePrint(

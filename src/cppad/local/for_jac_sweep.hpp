@@ -153,7 +153,7 @@ void for_jac_sweep(
 
 # if CPPAD_FOR_JAC_SWEEP_TRACE
 	vector<size_t>    user_usrrp; // parameter index for UsrrpOp operators
-	std::cout << std::endl;
+	r_cout() << std::endl;
 	CppAD::vectorBool z_value(limit);
 # endif
 
@@ -750,7 +750,7 @@ void for_jac_sweep(
 				}
 				// j_var is zero when there is no result.
 				printOp(
-					std::cout,
+					r_cout(),
 					play,
 					i_op - user_m + i,
 					j_var,
@@ -758,13 +758,13 @@ void for_jac_sweep(
 					arg_tmp
 				);
 				if( j_var > 0 ) printOpResult(
-					std::cout,
+					r_cout(),
 					1,
 					&z_value,
 					0,
 					(CppAD::vectorBool *) CPPAD_NULL
 				);
-				std::cout << std::endl;
+				r_cout() << std::endl;
 			}
 		}
 		// value for this variable
@@ -781,7 +781,7 @@ void for_jac_sweep(
 		delay_print     |= op == UsrrvOp;
 		if( ! delay_print )
 		{	 printOp(
-				std::cout,
+				r_cout(),
 				play,
 				i_op,
 				i_var,
@@ -789,16 +789,16 @@ void for_jac_sweep(
 				arg
 			);
 			if( NumRes(op) > 0 && (! delay_print) ) printOpResult(
-				std::cout,
+				r_cout(),
 				1,
 				&z_value,
 				0,
 				(CppAD::vectorBool *) CPPAD_NULL
 			);
-			std::cout << std::endl;
+			r_cout() << std::endl;
 		}
 	}
-	std::cout << std::endl;
+	r_cout() << std::endl;
 # else
 	}
 # endif

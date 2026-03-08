@@ -46,7 +46,7 @@
 /* include sassy (as part of dejavu) */
 #include "build_dejavu_graph.h"
 #ifdef __GNUC__
-#pragma GCC diagnostic ignored "-Wshadow"
+/* #pragma GCC diagnostic ignored "-Wshadow" */
 #endif
 
 #ifdef _MSC_VER
@@ -61,7 +61,7 @@
 #endif
 
 #ifdef __GNUC__
-#pragma GCC diagnostic warning "-Wshadow"
+/* #pragma GCC diagnostic warning "-Wshadow" */
 #endif
 
 #ifdef _MSC_VER

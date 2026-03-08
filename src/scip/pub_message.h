@@ -182,7 +182,7 @@ void SCIPmessagehdlrSetQuiet(
 
 /** prints a message, acting like the printf() command */
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT
 void SCIPmessagePrintInfo(
@@ -201,7 +201,7 @@ void SCIPmessageVPrintInfo(
 
 /** prints a message into a file, acting like the fprintf() command */
 #ifdef __GNUC__
-__attribute__((format(printf, 3, 4)))
+__attribute__((format(__printf__, 3, 4)))
 #endif
 SCIP_EXPORT
 void SCIPmessageFPrintInfo(
@@ -222,7 +222,7 @@ void SCIPmessageVFPrintInfo(
 
 /** prints a warning message, acting like the printf() command */
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT
 void SCIPmessagePrintWarning(
@@ -241,7 +241,7 @@ void SCIPmessageVPrintWarning(
 
 /** prints a warning message into a file, acting like the fprintf() command */
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT
 void SCIPmessageFPrintWarning(
@@ -260,7 +260,7 @@ void SCIPmessageVFPrintWarning(
 
 /** prints a dialog message that requests user interaction, acting like the printf() command */
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT
 void SCIPmessagePrintDialog(
@@ -279,7 +279,7 @@ void SCIPmessageVPrintDialog(
 
 /** prints a dialog message that requests user interaction into a file, acting like the fprintf() command */
 #ifdef __GNUC__
-__attribute__((format(printf, 3, 4)))
+__attribute__((format(__printf__, 3, 4)))
 #endif
 SCIP_EXPORT
 void SCIPmessageFPrintDialog(
@@ -300,7 +300,7 @@ void SCIPmessageVFPrintDialog(
 
 /** prints a message depending on the verbosity level, acting like the printf() command */
 #ifdef __GNUC__
-__attribute__((format(printf, 4, 5)))
+__attribute__((format(__printf__, 4, 5)))
 #endif
 SCIP_EXPORT
 void SCIPmessagePrintVerbInfo(
@@ -323,7 +323,7 @@ void SCIPmessageVPrintVerbInfo(
 
 /** prints a message into a file depending on the verbosity level, acting like the fprintf() command */
 #ifdef __GNUC__
-__attribute__((format(printf, 5, 6)))
+__attribute__((format(__printf__, 5, 6)))
 #endif
 SCIP_EXPORT
 void SCIPmessageFPrintVerbInfo(
@@ -355,7 +355,7 @@ void SCIPmessagePrintErrorHeader(
 
 /** prints an error message, acting like the printf() command using the static message handler */
 #ifdef __GNUC__
-__attribute__((format(printf, 1, 2)))
+__attribute__((format(__printf__, 1, 2)))
 #endif
 SCIP_EXPORT
 void SCIPmessagePrintError(

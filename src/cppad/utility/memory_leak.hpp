@@ -150,7 +150,6 @@ output.
 inline bool memory_leak(size_t add_static = 0)
 {	// CPPAD_ASSERT_FIRST_CALL_NOT_PARALLEL not necessary given asserts below
 	static size_t thread_zero_static_inuse     = 0;
-	using std::cout;
 	using std::endl;
 	using CppAD::thread_alloc;
 	using CppAD::omp_alloc;
@@ -174,15 +173,15 @@ inline bool memory_leak(size_t add_static = 0)
 	size_t num_bytes = thread_alloc::inuse(thread);
 	if( num_bytes != thread_zero_static_inuse )
 	{	leak = true;
-		cout << "thread zero: static inuse = " << thread_zero_static_inuse;
-		cout << ", current inuse(0)= " << num_bytes << endl;
+		r_cout() << "thread zero: static inuse = " << thread_zero_static_inuse;
+		r_cout() << ", current inuse(0)= " << num_bytes << endl;
 	}
 	// check that no memory is currently available for this thread
 	num_bytes = thread_alloc::available(thread);
 	if( num_bytes != 0 )
 	{	leak = true;
-		cout << "thread zero: available    = ";
-		cout << num_bytes << endl;
+		r_cout() << "thread zero: available    = ";
+		r_cout() << num_bytes << endl;
 	}
 	for(thread = 1; thread < CPPAD_MAX_NUM_THREADS; thread++)
 	{
@@ -190,15 +189,15 @@ inline bool memory_leak(size_t add_static = 0)
 		num_bytes = thread_alloc::inuse(thread);
 		if( num_bytes != 0 )
 		{	leak = true;
-			cout << "thread " << thread << ": inuse(thread) = ";
-			cout << num_bytes << endl;
+			r_cout() << "thread " << thread << ": inuse(thread) = ";
+			r_cout() << num_bytes << endl;
 		}
 		// check that no memory is currently available for this thread
 		num_bytes = thread_alloc::available(thread);
 		if( num_bytes != 0 )
 		{	leak = true;
-			cout << "thread " << thread << ": available(thread) = ";
-			cout << num_bytes << endl;
+			r_cout() << "thread " << thread << ": available(thread) = ";
+			r_cout() << num_bytes << endl;
 		}
 	}
 	// ----------------------------------------------------------------------
