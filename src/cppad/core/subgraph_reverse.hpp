@@ -304,13 +304,13 @@ void ADFun<Base>::subgraph_reverse(
 
 	/*
 	// Use this printout for debugging
-	std::cout << "{ ";
+	r_cout() << "{ ";
 	for(size_t k = 0; k < subgraph.size(); k++)
 	{	if( k > 0 )
-			std::cout << ", ";
-		std::cout << subgraph[k];
+			r_cout() << ", ";
+		r_cout() << subgraph[k];
 	}
-	std::cout << "}\n";
+	r_cout() << "}\n";
 	*/
 
 	// initialize subgraph_partial_ matrix to zero on subgraph

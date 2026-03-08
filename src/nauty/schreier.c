@@ -558,7 +558,7 @@ filterschreier(schreier *gp, int *p, permnode **ring,
     schreier *sh;
     int *orbits,*pwr;
     permnode **vec,*curr;
-    boolean changed,lchanged,ident;
+    boolean changed,lchanged,ident=FALSE;
 #if !MAXN
     DYNALLOC1(int,workperm,workperm_sz,n,"filterschreier");
 #endif
@@ -774,7 +774,7 @@ getorbitsmin(int *fix, int nfix, schreier *gp, permnode **ring,
 {
     schreier *sh,*sha;
     int *fixorbs;
-    int i,j,k,icell,nfails,wordlen,skips;
+    int i,j,k,icell=0,nfails,wordlen,skips;
     permnode *pn;
 #if !MAXN
     DYNALLOC1(int,workperm2,workperm2_sz,n,"expandschreier");

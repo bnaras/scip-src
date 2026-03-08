@@ -108,7 +108,7 @@ extern "C" {
  * even though they were declared __attribute__((__nonnull__))
  */
 #if defined(__clang__)
-#pragma clang diagnostic ignored "-Wnonnull"
+/* #pragma clang diagnostic ignored "-Wnonnull" */
 #endif
 
 #define READER_NAME             "zplreader"

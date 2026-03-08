@@ -69,7 +69,7 @@ The argument $icode before$$ has prototype
 $codei%
 	const char* %before%
 %$$
-This text is written to $code std::cout$$ before $icode var$$.
+This text is written to $code r_cout()$$ before $icode var$$.
 
 $head var$$
 The argument $icode var$$ has one of the following prototypes
@@ -78,7 +78,7 @@ $codei%
 	const VecAD<%Base%>::reference& %var%
 %$$
 The value of $icode var$$, that corresponds to $icode x$$,
-is written to $code std::cout$$ during the execution of
+is written to $code r_cout()$$ during the execution of
 $codei%
 	%f%.Forward(0, %x%)
 %$$
@@ -93,7 +93,7 @@ The argument $icode after$$ has prototype
 $codei%
 	const char* %after%
 %$$
-This text is written to $code std::cout$$ after $icode var$$.
+This text is written to $code r_cout()$$ after $icode var$$.
 
 $head Redirecting Output$$
 You can redirect this output to any standard output stream; see the

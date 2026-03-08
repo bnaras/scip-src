@@ -125,7 +125,7 @@ void SCIPsetMessagehdlrQuiet(
 
 /** prints a warning message via the message handler */
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT
 void SCIPwarningMessage(
@@ -136,7 +136,7 @@ void SCIPwarningMessage(
 
 /** prints a debug message */
 #ifdef __GNUC__
-__attribute__((format(printf, 4, 5)))
+__attribute__((format(__printf__, 4, 5)))
 #endif
 SCIP_EXPORT
 void SCIPprintDebugMessage(
@@ -149,7 +149,7 @@ void SCIPprintDebugMessage(
 
 /** prints a debug message without precode */
 #ifdef __GNUC__
-__attribute__((format(printf, 2, 3)))
+__attribute__((format(__printf__, 2, 3)))
 #endif
 SCIP_EXPORT
 void SCIPdebugMessagePrint(
@@ -160,7 +160,7 @@ void SCIPdebugMessagePrint(
 
 /** prints a dialog message that requests user interaction or is a direct response to a user interactive command */
 #ifdef __GNUC__
-__attribute__((format(printf, 3, 4)))
+__attribute__((format(__printf__, 3, 4)))
 #endif
 SCIP_EXPORT
 void SCIPdialogMessage(
@@ -172,7 +172,7 @@ void SCIPdialogMessage(
 
 /** prints a message */
 #ifdef __GNUC__
-__attribute__((format(printf, 3, 4)))
+__attribute__((format(__printf__, 3, 4)))
 #endif
 SCIP_EXPORT
 void SCIPinfoMessage(
@@ -184,7 +184,7 @@ void SCIPinfoMessage(
 
 /** prints a message depending on the verbosity level */
 #ifdef __GNUC__
-__attribute__((format(printf, 4, 5)))
+__attribute__((format(__printf__, 4, 5)))
 #endif
 SCIP_EXPORT
 void SCIPverbMessage(

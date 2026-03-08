@@ -2,7 +2,7 @@
 // This file is part of dejavu 2.1.
 // See LICENSE for extended copyright information.
 
-#include <iostream>
+#include <ostream>
 #include <algorithm>
 #include <random>
 #include <unordered_map>
@@ -32,8 +32,8 @@
     #define OS_LINUX
 #endif
 
-#define PRINT_NO_NEWLINE(str) std::cout << str << std::flush;
-#define PRINT(str) std::cout << str << std::endl;
+#define PRINT_NO_NEWLINE(str) r_cout() << str << std::flush;
+#define PRINT(str) r_cout() << str << std::endl;
 
 #ifdef DEJDEBUG
 #define dej_assert(expr) (assert(expr))

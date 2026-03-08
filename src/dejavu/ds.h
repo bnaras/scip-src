@@ -6,7 +6,7 @@
 #define DEJAVU_DS_H
 
 #include <list>
-#include <iostream>
+#include <ostream>
 #include <cstring>
 #include <functional>
 #include <algorithm>

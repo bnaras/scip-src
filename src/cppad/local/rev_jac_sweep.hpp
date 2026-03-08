@@ -160,7 +160,7 @@ void rev_jac_sweep(
 	play->get_op_info(--i_op, op, arg, i_var);
 	CPPAD_ASSERT_UNKNOWN( op == EndOp );
 # if CPPAD_REV_JAC_SWEEP_TRACE
-	std::cout << std::endl;
+	r_cout() << std::endl;
 	CppAD::vectorBool z_value(limit);
 # endif
 	bool more_operators = true;
@@ -727,7 +727,7 @@ void rev_jac_sweep(
 			j          = *(++itr);
 		}
 		printOp(
-			std::cout,
+			r_cout(),
 			play,
 			i_op,
 			i_var,
@@ -737,15 +737,15 @@ void rev_jac_sweep(
 		// Note that sparsity for UsrrvOp are computed before call to
 		// atomic function so no need to delay printing (as in forward mode)
 		if( NumRes(op) > 0 && op != BeginOp ) printOpResult(
-			std::cout,
+			r_cout(),
 			0,
 			(CppAD::vectorBool *) CPPAD_NULL,
 			1,
 			&z_value
 		);
-		std::cout << std::endl;
+		r_cout() << std::endl;
 	}
-	std::cout << std::endl;
+	r_cout() << std::endl;
 # else
 	}
 # endif

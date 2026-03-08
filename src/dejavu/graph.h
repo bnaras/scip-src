@@ -313,7 +313,7 @@ namespace dejavu {
                 if (num_vertices_defined != (unsigned int) g.v_size)
                     throw std::logic_error("did not add the number of vertices requested by constructor");
                 if (num_edges_defined != (unsigned int) g.e_size) {
-                    std::cout << num_edges_defined << " vs. " << g.e_size << std::endl;
+                    r_cout() << num_edges_defined << " vs. " << g.e_size << std::endl;
                     throw std::logic_error("did not add the number of edges requested by constructor");
                 }
                 sanity_check();
@@ -622,13 +622,13 @@ static inline bool parse_dimacs(const std::string& filename, dejavu::sgraph* g, 
     }
 
     if(fail) {
-        std::cout << "parsing failed in line " << line_number << std::endl;
-        std::cout << "> \'" << line << "\'" << std::endl;
+        r_cout() << "parsing failed in line " << line_number << std::endl;
+        r_cout() << "> \'" << line << "\'" << std::endl;
         return false;
     }
 
     if(!initialized) {
-        std::cout << "file does not contain a graph " << std::endl;
+        r_cout() << "file does not contain a graph " << std::endl;
         return false;
     }
 
@@ -651,7 +651,7 @@ static inline bool parse_dimacs(const std::string& filename, dejavu::sgraph* g, 
     dej_assert(nv == g->v_size);
     dej_assert(2 * ne == g->e_size);
     const double parse_time = (double) (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - timer).count());
-    if(!silent) std::cout << std::setprecision(2) << "parse_time=" << parse_time / 1000000.0 << "ms";
+    if(!silent) r_cout() << std::setprecision(2) << "parse_time=" << parse_time / 1000000.0 << "ms";
 
     return true;
 }
