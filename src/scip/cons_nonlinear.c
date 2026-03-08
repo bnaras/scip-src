@@ -13415,7 +13415,7 @@ SCIP_RETCODE SCIPprocessRowprepNonlinear(
          {
             char gap[40];
             /* coverity[secure_coding] */
-            (void) sprintf(gap, "_estimategap=%g", REALABS(auxvalue - estimateval));
+            (void) snprintf(gap, sizeof(gap), "_estimategap=%g", REALABS(auxvalue - estimateval));
             strcat(SCIProwprepGetName(rowprep), gap);
          }
       }
