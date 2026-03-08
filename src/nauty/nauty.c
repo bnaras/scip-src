@@ -73,6 +73,10 @@
 #include "nauty.h"
 #include "schreier.h"
 
+/* R-compatible error and print functions */
+extern void Rf_error(const char *, ...) __attribute__((noreturn));
+extern void REprintf(const char *, ...);
+
 #ifdef NAUTY_IN_MAGMA
 #include "cleanup.e"
 #endif
@@ -264,9 +268,7 @@ nauty(graph *g_arg, int *lab, int *ptn, set *active_arg,
 
     if (options->dispatch == NULL)
     {
-        fprintf(ERRFILE,">E nauty: null dispatch vector\n");
-        fprintf(ERRFILE,"Maybe you need to recompile\n");
-        exit(1);
+        Rf_error(">E nauty: null dispatch vector\nMaybe you need to recompile");
     }
     else
         dispatch = *(options->dispatch);
@@ -279,8 +281,7 @@ nauty(graph *g_arg, int *lab, int *ptn, set *active_arg,
     if (dispatch.refine == NULL || dispatch.updatecan == NULL
             || dispatch.targetcell == NULL || dispatch.cheapautom == NULL)
     {
-        fprintf(ERRFILE,">E bad dispatch vector\n");
-        exit(1);
+        Rf_error(">E bad dispatch vector");
     }
 
     /* check for excessive sizes: */
@@ -289,14 +290,14 @@ nauty(graph *g_arg, int *lab, int *ptn, set *active_arg,
     if (m_arg > NAUTY_INFINITY/WORDSIZE+1)
     {
         stats_arg->errstatus = MTOOBIG;
-        fprintf(ERRFILE,"nauty: need m <= %d, but m=%d\n\n",
+        REprintf("nauty: need m <= %d, but m=%d\n\n",
                 NAUTY_INFINITY/WORDSIZE+1,m_arg);
         return;
     }
     if (n_arg > NAUTY_INFINITY-2 || n_arg > WORDSIZE * m_arg)
     {
         stats_arg->errstatus = NTOOBIG;
-        fprintf(ERRFILE,"nauty: need n <= min(%d,%d*m), but n=%d\n\n",
+        REprintf("nauty: need n <= min(%d,%d*m), but n=%d\n\n",
                 NAUTY_INFINITY-2,WORDSIZE,n_arg);
         return;
     }
@@ -304,13 +305,13 @@ nauty(graph *g_arg, int *lab, int *ptn, set *active_arg,
     if (m_arg > MAXM)
     {
         stats_arg->errstatus = MTOOBIG;
-        fprintf(ERRFILE,"nauty: need m <= %d\n\n",MAXM);
+        REprintf("nauty: need m <= %d\n\n",MAXM);
         return;
     }
     if (n_arg > MAXN || n_arg > WORDSIZE * m_arg)
     {
         stats_arg->errstatus = NTOOBIG;
-        fprintf(ERRFILE,
+        REprintf(
                 "nauty: need n <= min(%d,%d*m)\n\n",MAXM,WORDSIZE);
         return;
     }
@@ -411,7 +412,7 @@ nauty(graph *g_arg, int *lab, int *ptn, set *active_arg,
         if (canong_arg == NULL)
         {
             stats_arg->errstatus = CANONGNIL;
-            fprintf(ERRFILE,
+            REprintf(
                   "nauty: canong=NULL but options.getcanon=TRUE\n\n");
             return;
         }
@@ -1143,7 +1144,7 @@ writemarker(int level, int tv, int index, int tcellsize,
 /*****************************************************************************
 *                                                                            *
 *  nauty_check() checks that this file is compiled compatibly with the       *
-*  given parameters.   If not, call exit(1).                                 *
+*  given parameters.   If not, call Rf_error().                              *
 *                                                                            *
 *****************************************************************************/
 
@@ -1152,34 +1153,30 @@ nauty_check(int wordsize, int mm, int nn, int version)
 {
     if (wordsize != WORDSIZE)
     {
-        fprintf(ERRFILE,"Error: WORDSIZE mismatch in nauty.c\n");
-        exit(1);
+        Rf_error("Error: WORDSIZE mismatch in nauty.c");
     }
 
 #if MAXN
     if (mm > MAXM)
     {
-        fprintf(ERRFILE,"Error: MAXM inadequate in nauty.c\n");
-        exit(1);
+        Rf_error("Error: MAXM inadequate in nauty.c");
     }
 
     if (nn > MAXN)
     {
-        fprintf(ERRFILE,"Error: MAXN inadequate in nauty.c\n");
-        exit(1);
+        Rf_error("Error: MAXN inadequate in nauty.c");
     }
 #endif
 
     if (version < NAUTYREQUIRED)
     {
-        fprintf(ERRFILE,"Error: nauty.c version mismatch\n");
-        exit(1);
+        Rf_error("Error: nauty.c version mismatch");
     }
 
 #if !HAVE_TLS
     if ((version & 1))
     {
-        fprintf(ERRFILE,
+        REprintf(
           "*** Warning: program with TLS calling nauty without TLS ***\n");
     }
 #endif

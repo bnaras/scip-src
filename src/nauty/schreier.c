@@ -5,7 +5,11 @@
  * Written for nauty and traces, Brendan McKay 2010-2013.
  */
 
-#include "schreier.h" 
+#include "schreier.h"
+
+/* R-compatible error and print functions */
+extern void Rf_error(const char *, ...) __attribute__((noreturn));
+extern void REprintf(const char *, ...);
 
 TLS_ATTR long long multcount = 0;
 TLS_ATTR long long filtercount = 0;
@@ -63,9 +67,8 @@ testispermutation(int id, int *p, int n)
 
     if (i < n)
     {
-        fprintf(stderr,">E Bad permutation (id=%d): n=%d p[%d]=%d\n",
+        Rf_error(">E Bad permutation (id=%d): n=%d p[%d]=%d",
                 id,n,i,p[i]);
-        exit(1);
     }
 
     m = SETWORDSNEEDED(n);
@@ -76,10 +79,8 @@ testispermutation(int id, int *p, int n)
     {
         if (ISELEMENT(seen,p[i]))
         {
-            fprintf(stderr,
-                ">E Bad permutation (id=%d): n=%d p[%d]=%d is a repeat\n",
+            Rf_error(">E Bad permutation (id=%d): n=%d p[%d]=%d is a repeat",
                 id,n,i,p[i]);
-            exit(1);
         }
         ADDELEMENT(seen,p[i]);
     }
@@ -165,8 +166,7 @@ static permnode
 
     if (p == NULL)
     {
-        fprintf(ERRFILE,">E malloc failed in newpermnode()\n");
-        exit(1);
+        Rf_error(">E malloc failed in newpermnode()");
     }
 
     p->next = p->prev = NULL;
@@ -205,8 +205,7 @@ static schreier
 
     if (sh == NULL)
     {
-        fprintf(ERRFILE,">E malloc failed in newschreier()\n");
-        exit(1);
+        Rf_error(">E malloc failed in newschreier()");
     }
 
     sh->vec = (permnode**) malloc(sizeof(permnode*)*n);
@@ -215,8 +214,7 @@ static schreier
 
     if (sh->vec == NULL || sh->pwr == NULL || sh->orbits == NULL)
     {
-        fprintf(ERRFILE,">E malloc failed in newschreier()\n");
-        exit(1);
+        Rf_error(">E malloc failed in newschreier()");
     }
 
     sh->next = NULL;
@@ -1079,7 +1077,7 @@ grouporder(int *fix, int nfix, schreier *gp, permnode **ring,
 /*****************************************************************************
 *                                                                            *
 *  schreier_check() checks that this file is compiled compatibly with the    *
-*  given parameters.   If not, call exit(1).                                 *
+*  given parameters.   If not, call Rf_error().                              *
 *                                                                            *
 *****************************************************************************/
 
@@ -1088,28 +1086,24 @@ schreier_check(int wordsize, int m, int n, int version)
 {
         if (wordsize != WORDSIZE)
         {
-            fprintf(ERRFILE,"Error: WORDSIZE mismatch in schreier.c\n");
-            exit(1);
+            Rf_error("Error: WORDSIZE mismatch in schreier.c");
         }
 
 #if MAXN
         if (m > MAXM)
         {
-            fprintf(ERRFILE,"Error: MAXM inadequate in schreier.c\n");
-            exit(1);
+            Rf_error("Error: MAXM inadequate in schreier.c");
         }
 
         if (n > MAXN)
         {
-            fprintf(ERRFILE,"Error: MAXN inadequate in schreier.c\n");
-            exit(1);
+            Rf_error("Error: MAXN inadequate in schreier.c");
         }
 #endif
 
         if (version < NAUTYREQUIRED)
         {
-            fprintf(ERRFILE,"Error: schreier.c version mismatch\n");
-            exit(1);
+            Rf_error("Error: schreier.c version mismatch");
         }
 }
 

@@ -43,6 +43,9 @@
 #include "xmldef.h"
 #include "scip/misc.h"
 
+/* R-compatible print function */
+extern void REprintf(const char *, ...);
+
 
 #include <sys/types.h>
 #ifdef SCIP_WITH_ZLIB
@@ -122,42 +125,43 @@ void xmlErrmsg(
 
    if ( ! msg_only )
    {
-      ret = fprintf(stderr, "%s(%d) Error in file %s line %d\n", file, line, ppos->filename, ppos->lineno);
+      REprintf("%s(%d) Error in file %s line %d\n", file, line, ppos->filename, ppos->lineno);
+      ret = 0;
       assert(ret >= 0);
 
-      ret = fprintf(stderr, "%s", ppos->buf);
+      REprintf("%s", ppos->buf);
+      ret = 0;
       assert(ret >= 0);
 
       if ( strchr(ppos->buf, '\n') == NULL )
       {
-         int retc;
-
-         retc = fputc('\n', stderr);
-         assert(retc != EOF);
+         REprintf("\n");
       }
 
-      ret = fprintf(stderr, "%*s\n", ppos->pos, "^");
+      REprintf("%*s\n", ppos->pos, "^");
+      ret = 0;
       assert(ret >= 0);
    }
-   ret = fprintf(stderr, "%s\n\n", msg);
+   REprintf("%s\n\n", msg);
+   ret = 0;
    assert(ret >= 0);
 
 #else
 
    if ( ! msg_only )
    {
-      (void) fprintf(stderr, "%s(%d) Error in file %s line %d\n", file, line, ppos->filename, ppos->lineno);
+      REprintf("%s(%d) Error in file %s line %d\n", file, line, ppos->filename, ppos->lineno);
 
-      (void) fprintf(stderr, "%s", ppos->buf);
+      REprintf("%s", ppos->buf);
 
       if ( strchr(ppos->buf, '\n') == NULL )
       {
-         (void) fputc('\n', stderr);
+         REprintf("\n");
       }
 
-      (void) fprintf(stderr, "%*s\n", ppos->pos, "^");
+      REprintf("%*s\n", ppos->pos, "^");
    }
-   (void) fprintf(stderr, "%s\n\n", msg);
+   REprintf("%s\n\n", msg);
 #endif
 }
 
