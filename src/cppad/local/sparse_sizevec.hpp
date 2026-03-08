@@ -1389,16 +1389,16 @@ public:
 Print the vector of sets (used for debugging)
 */
 inline void sparse_sizevec::print(void) const
-{	std::cout << "sparse_sizevec:\n";
+{	r_cout() << "sparse_sizevec:\n";
 	for(size_t i = 0; i < n_set(); i++)
-	{	std::cout << "set[" << i << "] = {";
+	{	r_cout() << "set[" << i << "] = {";
 		const_iterator itr(*this, i);
 		while( *itr != end() )
-		{	std::cout << *itr;
+		{	r_cout() << *itr;
 			if( *(++itr) != end() )
-				std::cout << ",";
+				r_cout() << ",";
 		}
-		std::cout << "}\n";
+		r_cout() << "}\n";
 	}
 	return;
 }

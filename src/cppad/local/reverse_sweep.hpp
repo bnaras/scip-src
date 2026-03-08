@@ -229,7 +229,7 @@ void reverse_sweep(
 
 	// Initialize
 # if CPPAD_REVERSE_SWEEP_TRACE
-	std::cout << std::endl;
+	r_cout() << std::endl;
 # endif
 	size_t subgraph_index = subgraph.size();
 	while(subgraph_index > 0)
@@ -273,7 +273,7 @@ void reverse_sweep(
 		const Base*  Z_tmp  = Taylor + i_var * J;
 		const Base*  pZ_tmp = Partial + i_var * K;
 		printOp(
-			std::cout,
+			r_cout(),
 			play,
 			i_op,
 			i_tmp,
@@ -281,13 +281,13 @@ void reverse_sweep(
 			arg
 		);
 		if( NumRes(op) > 0 && op != BeginOp ) printOpResult(
-			std::cout,
+			r_cout(),
 			d + 1,
 			Z_tmp,
 			d + 1,
 			pZ_tmp
 		);
-		std::cout << std::endl;
+		r_cout() << std::endl;
 # endif
 		switch( op )
 		{
@@ -807,7 +807,7 @@ void reverse_sweep(
 		}
 	}
 # if CPPAD_REVERSE_SWEEP_TRACE
-	std::cout << std::endl;
+	r_cout() << std::endl;
 # endif
 }
 

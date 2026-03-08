@@ -2071,7 +2071,7 @@ namespace dejavu {
                             ++could_prune;
                         }
                     }
-                    std::cout << could_prune << "@" << j << std::endl;
+                    r_cout() << could_prune << "@" << j << std::endl;
                 }*/
             }
 

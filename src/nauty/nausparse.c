@@ -31,7 +31,7 @@
 
 //SV disable warning due to cast of unsigned int* to sparsegraph* in SG_VDE macro
 #ifdef __clang__
-#pragma clang diagnostic ignored "-Wcast-align"
+/* #pragma clang diagnostic ignored "-Wcast-align" */
 #endif
 
 /*   #define ONE_WORD_SETS  not sure about this!  See notes.txt.  */

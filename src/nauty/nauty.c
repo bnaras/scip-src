@@ -566,7 +566,7 @@ firstpathnode(int *lab, int *ptn, int level, int numcells)
 #endif
 {
     int tv;
-    int tv1,index,rtnlevel,tcellsize,tc,childcount,qinvar,refcode;
+    int tv1,index,rtnlevel,tcellsize,tc,childcount=0,qinvar,refcode;
 #if !MAXN
     set *tcell;
     tcnode *tcnode_this;

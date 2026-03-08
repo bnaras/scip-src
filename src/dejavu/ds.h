@@ -5,6 +5,7 @@
 #ifndef DEJAVU_DS_H
 #define DEJAVU_DS_H
 
+#include <list>
 #include <cstring>
 #include <algorithm>
 #include <cassert>
