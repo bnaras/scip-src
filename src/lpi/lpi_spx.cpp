@@ -133,12 +133,7 @@
 
 #include "scip/pub_message.h"
 
-/* R-compatible error and print functions */
-extern "C" {
-extern void Rprintf(const char *, ...);
-extern void REprintf(const char *, ...);
-extern void Rf_error(const char *, ...) __attribute__((noreturn));
-}
+#include "r_streams.h"
 
 /********************************************************************/
 /*----------------------------- C++ --------------------------------*/
@@ -212,7 +207,7 @@ using namespace soplex;
       {                                                                 \
          std::string s = E.what();                                      \
          SCIPerrorMessage("SoPlex threw an exception: %s\n", s.c_str()); \
-         abort();                                                       \
+         Rf_error("internal error (abort)");                              \
       }                                                                 \
    }                                                                    \
    while( FALSE )

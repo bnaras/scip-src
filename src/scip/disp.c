@@ -35,6 +35,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "r_streams.h"
 #include "scip/def.h"
 #include "blockmemshell/memory.h"
 #include "scip/set.h"
@@ -481,7 +482,7 @@ SCIP_RETCODE SCIPdispPrintLine(
       {
          SCIPmessageFPrintInfo(messagehdlr, file, "\n");
       }
-      fflush(stdout);
+      /* fflush(stdout) — not needed when routing through R */
 
       stat->lastdispnode = stat->nnodes;
       stat->ndisplines++;
