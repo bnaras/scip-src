@@ -36,6 +36,7 @@
 
 /*---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
+#include "r_streams.h"
 #include "blockmemshell/memory.h"
 #include "scip/cons_knapsack.h"
 #include "scip/cons_linear.h"
@@ -1440,19 +1441,19 @@ void SCIPmatrixPrintRow(
    rowend = rowpnt + matrix->rowmatcnt[row];
    valpnt = matrix->rowmatval + matrix->rowmatbeg[row];
 
-   printf("### %s: %.15g <=", SCIPconsGetName(matrix->cons[row]), matrix->lhs[row]);
+   Rprintf("### %s: %.15g <=", SCIPconsGetName(matrix->cons[row]), matrix->lhs[row]);
    for(; (rowpnt < rowend); rowpnt++, valpnt++)
    {
       col = *rowpnt;
       val = *valpnt;
       if( val < 0 )
-         printf(" %.15g %s [%.15g,%.15g]", val, SCIPvarGetName(matrix->vars[col]),
+         Rprintf(" %.15g %s [%.15g,%.15g]", val, SCIPvarGetName(matrix->vars[col]),
             SCIPvarGetLbGlobal(matrix->vars[col]), SCIPvarGetUbGlobal(matrix->vars[col]));
       else
-         printf(" +%.15g %s [%.15g,%.15g]", val, SCIPvarGetName(matrix->vars[col]),
+         Rprintf(" +%.15g %s [%.15g,%.15g]", val, SCIPvarGetName(matrix->vars[col]),
             SCIPvarGetLbGlobal(matrix->vars[col]), SCIPvarGetUbGlobal(matrix->vars[col]));
    }
-   printf(" <= %.15g ###\n", matrix->rhs[row]);
+   Rprintf(" <= %.15g ###\n", matrix->rhs[row]);
 }
 
 /** removes the bounds of a column and updates the activities accordingly */

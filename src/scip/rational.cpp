@@ -51,12 +51,7 @@
 #include <string.h>
 #include <algorithm>
 
-/* R-compatible print functions */
-extern "C" {
-extern void Rprintf(const char *, ...);
-extern void REprintf(const char *, ...);
-extern void Rf_error(const char *, ...) __attribute__((noreturn));
-}
+#include "r_streams.h"
 
 #ifdef SCIP_WITH_MPFR
 #include <mpfr.h>
@@ -1882,49 +1877,49 @@ void SCIPrationalVPrintf(
             break;
          case 's':
             for( sval = va_arg(arguments, char *); *sval; sval++ )
-               (void) putchar(*sval);
+               Rprintf("%c", *sval);
             break;
          case 'f':
             dval = va_arg(arguments, SCIP_Real);
-            printf("%f", dval);
+            Rprintf("%f", dval);
             break;
          case 'g':
             dval = va_arg(arguments, SCIP_Real);
-            printf("%g", dval);
+            Rprintf("%g", dval);
             break;
          case 'e':
             dval = va_arg(arguments, SCIP_Real);
-            printf("%e", dval);
+            Rprintf("%e", dval);
             break;
          case 'd':
          case 'i':
             ival = va_arg(arguments, int);
-            printf("%d", ival);
+            Rprintf("%d", ival);
             break;
          case 'l':
             lval = va_arg(arguments, SCIP_Longint);
-            printf("%lld", lval);
+            Rprintf("%lld", lval);
             break;
          case 'u':
             ival = va_arg(arguments, int);
-            printf("%d", ival);
+            Rprintf("%d", ival);
             break;
          case 'c':
             cval = (char) va_arg(arguments, int);
-            printf("%c", cval);
+            Rprintf("%c", cval);
             break;
          case 'p':
             pval = va_arg(arguments, void*);
-            printf("%p", pval);
+            Rprintf("%p", pval);
             break;
          default:
-            (void) putchar(*formatstr);
+            Rprintf("%c", *formatstr);
             break;
          }
       }
       else
       {
-         (void) putchar(*formatstr);
+         Rprintf("%c", *formatstr);
       }
       ++formatstr;
    }
@@ -1969,7 +1964,7 @@ void SCIPrationalPrintDebugMessage(
    else
       ++filename;
 
-   printf("[%s:%d] debug: ", filename, sourceline);
+   Rprintf("[%s:%d] debug: ", filename, sourceline);
 
    va_start(ap, formatstr); /*lint !e838*/
    SCIPrationalVPrintf(formatstr, ap);
@@ -2823,12 +2818,12 @@ SCIP_RETCODE SCIPrationalarrayPrint(
    SCIP_RATIONALARRAY*   rationalarray       /**< dynamic rational array */
    )
 {
-   printf("Array with firstidx %d, length %d \n", rationalarray->firstidx, (int) rationalarray->vals.size());
+   Rprintf("Array with firstidx %d, length %d \n", rationalarray->firstidx, (int) rationalarray->vals.size());
    for( auto val : rationalarray->vals )
    {
       SCIPrationalPrint(&val);
    }
-   printf("\n");
+   Rprintf("\n");
 
    return SCIP_OKAY;
 }

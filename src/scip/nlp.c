@@ -39,6 +39,7 @@
 /*---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
 
+#include "r_streams.h"
 #include "scip/nlpi.h"
 #include "scip/pub_expr.h"
 #include "scip/expr.h"
@@ -4259,7 +4260,7 @@ SCIP_RETCODE SCIPnlpWrite(
       }
    }
    else
-      file = stdout;
+      file = NULL;  /* was stdout; SCIP message functions treat NULL as default (R console) output */
 
    SCIPmessageFPrintInfo(messagehdlr, file, "STATISTICS\n");
    SCIPmessageFPrintInfo(messagehdlr, file, "  NLP name: %s\n", nlp->name);

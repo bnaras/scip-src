@@ -37,6 +37,7 @@
 #include "scip/expr.h"
 #include "scip/struct_expr.h"
 #include "scip/pub_misc.h"
+#include "r_streams.h"
 #include "scip/clock.h"
 #include "scip/set.h"
 #include "scip/pub_var.h"
@@ -2327,7 +2328,7 @@ SCIP_RETCODE SCIPexprPrintDotInit(
    assert(printdata != NULL);
 
    if( file == NULL )
-      file = stdout;
+      file = tmpfile();  /* DOT output requires a real FILE*; tmpfile avoids stdout reference */
 
    SCIP_ALLOC( BMSallocBlockMemory(blkmem, printdata) );
 

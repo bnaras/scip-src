@@ -43,6 +43,8 @@
 
 #include "scip/struct_dialog.h"
 
+#include "r_streams.h"
+
 #ifdef SCIP_WITH_READLINE
 #include <stdio.h>
 #include <readline/readline.h>
@@ -175,7 +177,7 @@ SCIP_RETCODE readLine(
       char* result;
 
       /* display prompt */
-      printf("%s", prompt);
+      Rprintf("%s", prompt);
 
       /* read line from stdin */
       result = fgets(&dialoghdlr->buffer[dialoghdlr->bufferpos], dialoghdlr->buffersize - dialoghdlr->bufferpos, stdin);

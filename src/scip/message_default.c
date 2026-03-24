@@ -34,6 +34,8 @@
 #include "scip/message_default.h"
 #include "scip/struct_message.h"
 
+#include "r_streams.h"
+
 /*
  * Local methods
  */
@@ -41,13 +43,19 @@
 /** prints a message to the given file stream and writes the same messate to the log file */
 static
 void logMessage(
-   FILE*                 file,               /**< file stream to print message into */
+   FILE*                 file,               /**< file stream to print message into, or NULL for R console */
    const char*           msg                 /**< message to print (or NULL to flush) */
    )
 {
    if ( msg != NULL )
-      fputs(msg, file);
-   fflush(file);
+   {
+      if ( file != NULL )
+         fputs(msg, file);
+      else
+         Rprintf("%s", msg);
+   }
+   if ( file != NULL )
+      fflush(file);
 }
 
 /*
@@ -59,9 +67,21 @@ static
 SCIP_DECL_MESSAGEWARNING(messageWarningDefault)
 {  /*lint --e{715}*/
    if ( msg != NULL && msg[0] != '\0' && msg[0] != '\n' )
-      fputs("WARNING: ", file);
+   {
+      if ( file != NULL )
+         fputs("WARNING: ", file);
+      else
+         REprintf("WARNING: ");
+   }
 
-   logMessage(file, msg);
+   if ( file != NULL )
+      logMessage(file, msg);
+   else
+   {
+      /* warnings go to R's stderr equivalent */
+      if ( msg != NULL )
+         REprintf("%s", msg);
+   }
 }
 
 /** dialog message print method of message handler */

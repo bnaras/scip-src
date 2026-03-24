@@ -30,6 +30,7 @@
 
 /*--+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
+#include "r_streams.h"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -366,7 +367,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
             logname = argv[i];
          else
          {
-            printf("missing log filename after parameter '-l'\n");
+            Rprintf("missing log filename after parameter '-l'\n");
             paramerror = TRUE;
          }
       }
@@ -383,7 +384,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
             settingsname = argv[i];
          else
          {
-            printf("missing settings filename after parameter '-s'\n");
+            Rprintf("missing settings filename after parameter '-s'\n");
             paramerror = TRUE;
          }
       }
@@ -394,7 +395,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
             probname = argv[i];
          else
          {
-            printf("missing problem filename after parameter '-f'\n");
+            Rprintf("missing problem filename after parameter '-f'\n");
             paramerror = TRUE;
          }
       }
@@ -408,7 +409,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
          }
          else
          {
-            printf("missing command line after parameter '-c'\n");
+            Rprintf("missing command line after parameter '-c'\n");
             paramerror = TRUE;
          }
       }
@@ -422,7 +423,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
             file = SCIPfopen(argv[i], "r");
             if( file == NULL )
             {
-               printf("cannot read command batch file <%s>\n", argv[i]);
+               Rprintf("cannot read command batch file <%s>\n", argv[i]);
                SCIPprintSysError(argv[i]);
                paramerror = TRUE;
             }
@@ -444,7 +445,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
          }
          else
          {
-            printf("missing command batch filename after parameter '-b'\n");
+            Rprintf("missing command batch filename after parameter '-b'\n");
             paramerror = TRUE;
          }
       }
@@ -459,7 +460,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
          }
          else
          {
-            printf("Random seed parameter '-r' followed by something that is not an integer\n");
+            Rprintf("Random seed parameter '-r' followed by something that is not an integer\n");
             paramerror = TRUE;
          }
       }
@@ -482,7 +483,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
       {
          if( i >= argc - 2 )
          {
-            printf("wrong usage of reference objective parameter '-o': -o <primref> <dualref>\n");
+            Rprintf("wrong usage of reference objective parameter '-o': -o <primref> <dualref>\n");
             paramerror = TRUE;
          }
          else
@@ -495,14 +496,14 @@ SCIP_RETCODE SCIPprocessShellArguments(
       }
       else
       {
-         printf("invalid parameter <%s>\n", argv[i]);
+         Rprintf("invalid parameter <%s>\n", argv[i]);
          paramerror = TRUE;
       }
    }
 
    if( interactive && probname != NULL )
    {
-      printf("cannot mix batch mode '-c' and '-b' with file mode '-f'\n");
+      Rprintf("cannot mix batch mode '-c' and '-b' with file mode '-f'\n");
       paramerror = TRUE;
    }
 
@@ -585,7 +586,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
                if( ! SCIPparseReal(scip, primalrefstring, &primalreference, &endptr) ||
                         ! SCIPparseReal(scip, dualrefstring, &dualreference, &endptr) )
                {
-                  printf("error parsing primal and dual reference values for validation: %s %s\n", primalrefstring, dualrefstring);
+                  Rprintf("error parsing primal and dual reference values for validation: %s %s\n", primalrefstring, dualrefstring);
                   return SCIP_ERROR;
                }
                else
@@ -602,7 +603,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
                        !SCIPparseRational(scip, primalrefstring, dualreferencerational, &endptr);
                if( error )
                {
-                  printf("error parsing exact primal and dual reference values for validation: %s %s\n", primalrefstring, dualrefstring);
+                  Rprintf("error parsing exact primal and dual reference values for validation: %s %s\n", primalrefstring, dualrefstring);
                   return SCIP_ERROR;
                }
                else
@@ -634,7 +635,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
    }
    else
    {
-      printf("\nsyntax: %s [-l <logfile>] [-q] [-s <settings>] [-r <randseed>] [-t <threads>] [-f <problem>] [-b <batchfile>] [-c \"command\"]\n"
+      Rprintf("\nsyntax: %s [-l <logfile>] [-q] [-s <settings>] [-r <randseed>] [-t <threads>] [-f <problem>] [-b <batchfile>] [-c \"command\"]\n"
          "  -v, --version : print version and build options\n"
          "  -l <logfile>  : copy output into log file\n"
          "  -q            : suppress screen messages\n"
@@ -648,11 +649,11 @@ SCIP_RETCODE SCIPprocessShellArguments(
          "  -c \"command\"  : execute single line of dialog commands (can be used multiple times)\n",
          argv[0]);
 #ifdef SCIP_WITH_AMPL
-      printf("\nas AMPL solver: %s <.nl-file without the .nl> -AMPL [-i]\n"
+      Rprintf("\nas AMPL solver: %s <.nl-file without the .nl> -AMPL [-i]\n"
          "  -i : start interactive SCIP shell after .nl file has been read\n",
          argv[0]);
 #endif
-      printf("\n");
+      Rprintf("\n");
    }
 
    return SCIP_OKAY;

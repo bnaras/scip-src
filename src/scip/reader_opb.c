@@ -88,6 +88,7 @@
 
 /*---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
+#include "r_streams.h"
 #include "blockmemshell/memory.h"
 #include <ctype.h>
 #include "scip/cons_and.h"
@@ -4108,7 +4109,7 @@ SCIP_RETCODE writeOpbConstraints(
 
       SCIPerrorMessage("Cannot print constraint %s with non-integral coefficient or sides in opb-format\n",
             SCIPconsGetName(cons));
-      SCIP_CALL( SCIPprintCons(scip, cons, stderr) );
+      SCIP_CALL( SCIPprintCons(scip, cons, NULL) );
       SCIPinfoMessage(scip, file, ";\n");
    }
 

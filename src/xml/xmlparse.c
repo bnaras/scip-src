@@ -43,8 +43,7 @@
 #include "xmldef.h"
 #include "scip/misc.h"
 
-/* R-compatible print function */
-extern void REprintf(const char *, ...);
+#include "r_streams.h"
 
 
 #include <sys/types.h>
@@ -753,7 +752,7 @@ void handleDecl(
       case IS_DOCTYPE :
          break;
       default :
-         abort();
+         Rf_error("internal error (abort)");
       }
    }
 }

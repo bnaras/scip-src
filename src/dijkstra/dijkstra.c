@@ -37,6 +37,8 @@
 
 #include "dijkstra.h"
 
+#include "r_streams.h"
+
 
 /** Check whether the data structures of the graph are valid. */
 DIJKSTRA_Bool dijkstraGraphIsValid(
@@ -48,27 +50,27 @@ DIJKSTRA_Bool dijkstraGraphIsValid(
    unsigned int k;
 
    if ( G == NULL || G->outbeg == NULL || G->outcnt == NULL || G->weight == NULL || G->head == NULL )
-      abort();
+      Rf_error("internal error (abort)");
 
    for (i = 0; i < G->nodes; ++i)
    {
       for (k = G->outbeg[i]; k < G->outbeg[i] + G->outcnt[i]; ++k)
       {
          if ( G->head[k] >= G->nodes )
-            abort();
+            Rf_error("internal error (abort)");
 
          if ( G->weight[k] > G->maxweight || G->weight[k] < G->minweight )
-            abort();
+            Rf_error("internal error (abort)");
 
          ++count;
       }
       if ( G->head[k] != DIJKSTRA_UNUSED )
-         abort();
+         Rf_error("internal error (abort)");
 
       ++count;
    }
    if ( count > G->arcs )
-      abort();
+      Rf_error("internal error (abort)");
 
    return TRUE;
 }

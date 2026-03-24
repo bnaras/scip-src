@@ -35,13 +35,11 @@
 #include <stdlib.h>
 #include <signal.h>
 
+#include "r_streams.h"
 #include "scip/def.h"
 #include "scip/pub_message.h"
 #include "blockmemshell/memory.h"
 #include "scip/interrupt.h"
-
-/* R-compatible error function */
-extern void Rf_error(const char *, ...) __attribute__((noreturn));
 
 
 static volatile
@@ -85,7 +83,7 @@ void interruptHandler(
    }
    else
    {
-      printf("pressed CTRL-C %d times (5 times for forcing termination)\n", ninterrupts);
+      Rprintf("pressed CTRL-C %d times (5 times for forcing termination)\n", ninterrupts);
    }
 }
 
