@@ -57,6 +57,8 @@
 #include "blockmemshell/memory.h"
 #include "scip/rbtree.h"
 
+#include "r_streams.h"
+
 /* uncomment the following to enable the use of a memlist in debug mode
  * that checks for some memory leaks and allows to add the additional
  * checks enabled with the defines below.
@@ -86,16 +88,16 @@
 #define debugMessage SCIPdebugMessage
 #define errorMessage SCIPerrorMessage
 #else
-#define debugMessage while( FALSE ) printf
-#define errorMessage printf
-#define printErrorHeader(f,l) printf("[%s:%d] ERROR: ", f, l)
-#define printError printf
+#define debugMessage while( FALSE ) Rprintf
+#define errorMessage Rprintf
+#define printErrorHeader(f,l) Rprintf("[%s:%d] ERROR: ", f, l)
+#define printError Rprintf
 #endif
 
 #ifdef ENABLE_MEMLIST_CHECKS
-#define warningMessage printf
+#define warningMessage Rprintf
 #endif
-#define printInfo printf
+#define printInfo Rprintf
 
 /* define some macros (if not already defined) */
 #ifndef FALSE
@@ -3193,8 +3195,8 @@ void BMSprintBufferMemory(
    totalmem = 0UL;
    for (i = 0; i < buffer->ndata; ++i)
    {
-      printf("[%c] %8llu bytes at %p\n", buffer->used[i] ? '*' : ' ', (unsigned long long)(buffer->size[i]), buffer->data[i]);
+      Rprintf("[%c] %8llu bytes at %p\n", buffer->used[i] ? '*' : ' ', (unsigned long long)(buffer->size[i]), buffer->data[i]);
       totalmem += buffer->size[i];
    }
-   printf("    %8llu bytes total in %llu buffers\n", (unsigned long long)totalmem, (unsigned long long)(buffer->ndata));
+   Rprintf("    %8llu bytes total in %llu buffers\n", (unsigned long long)totalmem, (unsigned long long)(buffer->ndata));
 }

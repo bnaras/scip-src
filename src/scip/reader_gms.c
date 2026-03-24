@@ -33,6 +33,7 @@
 
 /*---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
+#include "r_streams.h"
 #include "blockmemshell/memory.h"
 #include "scip/cons_and.h"
 #include "scip/cons_nonlinear.h"
@@ -982,7 +983,7 @@ SCIP_RETCODE printExpr(
    assert(expr != NULL);
 
    if( file == NULL )
-      file = stdout;
+      file = tmpfile();  /* GMS writer needs a real FILE*; tmpfile avoids stdout reference */
 
    appendLine(scip, file, linebuffer, linecnt, " ");
 

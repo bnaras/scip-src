@@ -38,6 +38,8 @@
 #include "scip/config.h"
 #include "scip/scip_export.h"
 
+#include "r_streams.h"
+
 #ifdef WITH_SCIPDEF
 #include "scip/def.h"
 #endif
@@ -51,8 +53,8 @@ extern "C" {
    {                                                                    \
       if( NULL == (x) )                                                 \
       {                                                                 \
-         printf("[%s:%d] No memory in function call\n", __FILE__, __LINE__); \
-         abort();                                                       \
+         Rprintf("[%s:%d] No memory in function call\n", __FILE__, __LINE__); \
+         Rf_error("internal error (abort)");                            \
       }                                                                 \
    }                                                                    \
    while( FALSE )
@@ -63,7 +65,7 @@ extern "C" {
    {                                                                    \
       if( NULL == (x) )                                                 \
       {                                                                 \
-         printf("[%s:%d] No memory in function call\n", __FILE__, __LINE__); \
+         Rprintf("[%s:%d] No memory in function call\n", __FILE__, __LINE__); \
          return FALSE;                                                  \
       }                                                                 \
    }                                                                    \
@@ -73,17 +75,17 @@ extern "C" {
 #ifndef debug
 #ifdef TCLIQUE_DEBUG
 #define debug(x)                        x
-#define debugMessage                    printf("[%s:%d] debug: ", __FILE__, __LINE__); printf
-#define debugPrintf                     printf
+#define debugMessage                    Rprintf("[%s:%d] debug: ", __FILE__, __LINE__); Rprintf
+#define debugPrintf                     Rprintf
 #else
 #define debug(x)                        /**/
-#define debugMessage                    while( FALSE ) printf
-#define debugPrintf                     while( FALSE ) printf
+#define debugMessage                    while( FALSE ) Rprintf
+#define debugPrintf                     while( FALSE ) Rprintf
 #endif
 #endif
 
 #ifndef infoMessage
-#define infoMessage printf
+#define infoMessage Rprintf
 #endif
 
 #ifndef MAX

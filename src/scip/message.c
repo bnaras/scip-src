@@ -42,6 +42,8 @@
 #include "scip/pub_misc.h"
 #include "blockmemshell/memory.h"
 
+#include "r_streams.h"
+
 
 #ifndef va_copy
 #define va_copy(dest, src) do { BMScopyMemory(&dest, &src); } while( 0 )
@@ -143,9 +145,9 @@ SCIP_DECL_ERRORPRINTING(errorPrintingDefault)
       if ( file != NULL )
          fputs(msg, file);
       else
-         fputs(msg, stderr);
+         REprintf("%s", msg);
    }
-   fflush(stderr);
+   /* fflush(stderr) — not needed when routing through R */
 }
 
 /** static variable which holds the error printing method */
@@ -174,7 +176,7 @@ void messagePrintWarning(
 {  /*lint --e{715}*/
    if ( messagehdlr != NULL && messagehdlr->messagewarning != NULL && (! messagehdlr->quiet || messagehdlr->logfile != NULL) )
    {
-      handleMessage(messagehdlr, messagehdlr->messagewarning, stderr, ! messagehdlr->quiet, messagehdlr->logfile, (messagehdlr->logfile != NULL),
+      handleMessage(messagehdlr, messagehdlr->messagewarning, NULL, ! messagehdlr->quiet, messagehdlr->logfile, (messagehdlr->logfile != NULL),
          msg, messagehdlr->warningbuffer, &messagehdlr->warningbufferlen);
    }
 }
@@ -189,9 +191,9 @@ void messagePrintDialog(
 {  /*lint --e{715}*/
    if ( messagehdlr != NULL && messagehdlr->messagedialog != NULL )
    {
-      if ( (file == NULL || file == stdout) && ! messagehdlr->quiet )
+      if ( file == NULL && ! messagehdlr->quiet )
       {
-         handleMessage(messagehdlr, messagehdlr->messagedialog, (file == NULL) ? stdout : file, TRUE, messagehdlr->logfile, (messagehdlr->logfile != NULL),
+         handleMessage(messagehdlr, messagehdlr->messagedialog, NULL, TRUE, messagehdlr->logfile, (messagehdlr->logfile != NULL),
             msg, messagehdlr->dialogbuffer, &messagehdlr->dialogbufferlen);
       }
       else if ( msg != NULL )
@@ -199,7 +201,7 @@ void messagePrintDialog(
          /* file output cannot be buffered because the output file may change */
          if ( *msg != '\0' )
          {
-            handleMessage(messagehdlr, messagehdlr->messagedialog, file, !messagehdlr->quiet || (file != NULL && file != stdout), messagehdlr->logfile, (messagehdlr->logfile != NULL), msg, NULL, NULL);
+            handleMessage(messagehdlr, messagehdlr->messagedialog, file, !messagehdlr->quiet || (file != NULL), messagehdlr->logfile, (messagehdlr->logfile != NULL), msg, NULL, NULL);
          }
       }
    }
@@ -215,9 +217,9 @@ void messagePrintInfo(
 {  /*lint --e{715}*/
    if ( messagehdlr != NULL && messagehdlr->messageinfo != NULL )
    {
-      if ( (file == NULL || file == stdout) && ! messagehdlr->quiet )
+      if ( file == NULL && ! messagehdlr->quiet )
       {
-         handleMessage(messagehdlr, messagehdlr->messageinfo, (file == NULL) ? stdout : file, TRUE, messagehdlr->logfile, (messagehdlr->logfile != NULL),
+         handleMessage(messagehdlr, messagehdlr->messageinfo, NULL, TRUE, messagehdlr->logfile, (messagehdlr->logfile != NULL),
             msg, messagehdlr->infobuffer, &messagehdlr->infobufferlen);
       }
       else if ( msg != NULL )
@@ -225,7 +227,7 @@ void messagePrintInfo(
          /* file output cannot be buffered because the output file may change or the message is to long */
          if ( *msg != '\0' )
          {
-            handleMessage(messagehdlr, messagehdlr->messagedialog, file, !messagehdlr->quiet || (file != NULL && file != stdout), messagehdlr->logfile, (messagehdlr->logfile != NULL), msg, NULL, NULL);
+            handleMessage(messagehdlr, messagehdlr->messagedialog, file, !messagehdlr->quiet || (file != NULL), messagehdlr->logfile, (messagehdlr->logfile != NULL), msg, NULL, NULL);
          }
       }
    }

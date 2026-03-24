@@ -391,7 +391,7 @@ nauty(graph *g_arg, int *lab, int *ptn, set *active_arg,
     linelength = options->linelength;
     if (digraph) tc_level = 0;
     else         tc_level = options->tc_level;
-    outfile = (options->outfile == NULL ? stdout : options->outfile);
+    outfile = (options->outfile == NULL ? tmpfile() : options->outfile);
     usernodeproc = options->usernodeproc;
     userautomproc = options->userautomproc;
     userlevelproc = options->userlevelproc;

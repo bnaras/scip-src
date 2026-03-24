@@ -34,6 +34,7 @@
 
 #include "scip/scip.h"
 #include "scip/nlpioracle.h"
+#include "r_streams.h"
 #include "scip/exprinterpret.h"
 #include "scip/expr_pow.h"
 #include "scip/expr_varidx.h"
@@ -756,11 +757,11 @@ SCIP_RETCODE evalFunctionGradient(
       int       i;
 
       SCIPdebugMsg(scip, "eval gradient of ");
-      SCIPdebug( if( isnewx ) {printf("\nx ="); for( i = 0; i < oracle->nvars; ++i) printf(" %g", x[i]); printf("\n");} )
+      SCIPdebug( if( isnewx ) {Rprintf("\nx ="); for( i = 0; i < oracle->nvars; ++i) Rprintf(" %g", x[i]); Rprintf("\n");} )
 
       SCIP_CALL( SCIPexprintGrad(scip, oracle->exprinterpreter, cons->expr, cons->exprintdata, (SCIP_Real*)x, isnewx, &nlval, grad) );
 
-      SCIPdebug( printf("g ="); for( i = 0; i < oracle->nvars; ++i) printf(" %g", grad[i]); printf("\n"); )
+      SCIPdebug( Rprintf("g ="); for( i = 0; i < oracle->nvars; ++i) Rprintf(" %g", grad[i]); Rprintf("\n"); )
 
       /* check for eval error */
       if( !SCIPisFinite(nlval) || SCIPisInfinity(scip, ABS(nlval)) )
@@ -1110,7 +1111,7 @@ static
 SCIP_RETCODE printFunction(
    SCIP*                 scip,               /**< SCIP data structure */
    SCIP_NLPIORACLE*      oracle,             /**< pointer to NLPIORACLE data structure */
-   FILE*                 file,               /**< file to print to, has to be not NULL */
+   FILE*                 file,               /**< file to print to, or NULL for standard output */
    SCIP_NLPIORACLECONS*  cons,               /**< constraint which function to print */
    SCIP_Bool             longvarnames        /**< whether variable names need to be shorten to 64 characters */
    )
@@ -1121,7 +1122,6 @@ SCIP_RETCODE printFunction(
    SCIPdebugMessage("%p print function\n", (void*)oracle);
 
    assert(oracle != NULL);
-   assert(file != NULL);
    assert(cons != NULL);
 
    for( i = 0; i < cons->nlinidxs; ++i )
@@ -2600,11 +2600,11 @@ SCIP_RETCODE SCIPnlpiOracleEvalJacobian(
 
       /* eval grad for nonlinear and add to jacobi */
       SCIPdebugMsg(scip, "eval gradient of ");
-      SCIPdebug( if( isnewx ) {printf("\nx ="); for( l = 0; l < oracle->nvars; ++l) printf(" %g", x[l]); printf("\n");} )
+      SCIPdebug( if( isnewx ) {Rprintf("\nx ="); for( l = 0; l < oracle->nvars; ++l) Rprintf(" %g", x[l]); Rprintf("\n");} )
 
       SCIP_CALL( SCIPexprintGrad(scip, oracle->exprinterpreter, cons->expr, cons->exprintdata, (SCIP_Real*)x, isnewx, &nlval, grad) );
 
-      SCIPdebug( printf("g ="); for( l = oracle->jacoffsets[i]; l < oracle->jacoffsets[i+1]; ++l) printf(" %g", grad[oracle->jaccols[l]]); printf("\n"); )
+      SCIPdebug( Rprintf("g ="); for( l = oracle->jacoffsets[i]; l < oracle->jacoffsets[i+1]; ++l) Rprintf(" %g", grad[oracle->jaccols[l]]); Rprintf("\n"); )
 
       if( !SCIPisFinite(nlval) || SCIPisInfinity(scip, ABS(nlval)) )
       {
@@ -2859,8 +2859,7 @@ SCIP_RETCODE SCIPnlpiOraclePrintProblem(
 
    SCIPdebugMessage("%p print problem\n", (void*)oracle);
 
-   if( file == NULL )
-      file = stdout;
+   /* file == NULL means default (R console) output; SCIP message functions handle NULL */
 
    SCIPinfoMessage(scip, file, "NLPI Oracle %s: %d variables and %d constraints\n", oracle->name ? oracle->name : "", oracle->nvars, oracle->nconss);
    for( i = 0; i < oracle->nvars; ++i )
@@ -2932,8 +2931,7 @@ SCIP_RETCODE SCIPnlpiOraclePrintProblemGams(
 
    assert(oracle != NULL);
 
-   if( file == NULL )
-      file = stdout;
+   /* file == NULL means default (R console) output; SCIP message functions handle NULL */
 
    nllevel = 0;
 

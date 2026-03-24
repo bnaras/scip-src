@@ -35,6 +35,7 @@
 
 /*---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
+#include "r_streams.h"
 #include "scip/clock.h"
 #include "scip/history.h"
 #include "scip/mem.h"
@@ -928,12 +929,12 @@ void SCIPstatPrintDebugMessage(
       ++filename;
 
    if ( stat->subscipdepth > 0 )
-      printf("%d: [%s:%d] debug: ", stat->subscipdepth, filename, sourceline);
+      Rprintf("%d: [%s:%d] debug: ", stat->subscipdepth, filename, sourceline);
    else
-      printf("[%s:%d] debug: ", filename, sourceline);
+      Rprintf("[%s:%d] debug: ", filename, sourceline);
 
    va_start(ap, formatstr); /*lint !e838*/
-   (void)vprintf(formatstr, ap);
+   (void)Rvprintf(formatstr, ap);
    va_end(ap);
 }
 
@@ -949,6 +950,6 @@ void SCIPstatDebugMessagePrint(
    assert(stat != NULL);
 
    va_start(ap, formatstr); /*lint !e838*/
-   printf(formatstr, ap);
+   Rvprintf(formatstr, ap);
    va_end(ap);
 }
