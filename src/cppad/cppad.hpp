@@ -19,6 +19,7 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 \brief contains all the variables and functions defined by the CppAD package.
 */
 
+# include "r_streams.h"
 # include <cppad/base_require.hpp> // all base type requirements
 // ---------------------------------------------------------------------------
 // CppAD general purpose library routines (can be included separately)
