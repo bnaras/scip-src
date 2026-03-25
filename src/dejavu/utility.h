@@ -3,6 +3,7 @@
 // See LICENSE for extended copyright information.
 
 #include <ostream>
+#include "r_streams.h"
 #include <algorithm>
 #include <random>
 #include <unordered_map>
