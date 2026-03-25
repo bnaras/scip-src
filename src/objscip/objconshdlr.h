@@ -39,6 +39,7 @@
 
 #include "scip/scip.h"
 #include "objscip/objprobcloneable.h"
+#include "r_streams.h"
 
 namespace scip
 {
@@ -417,7 +418,7 @@ public:
    virtual SCIP_DECL_CONSPRINT(scip_print)
    {  /*lint --e{715}*/
       if ( file == NULL )
-         fprintf(stdout, "constraint handler <%s> does not support printing constraints\n", SCIPconshdlrGetName(conshdlr));
+         Rprintf("constraint handler <%s> does not support printing constraints\n", SCIPconshdlrGetName(conshdlr));
       else
          fprintf(file, "constraint handler <%s> does not support printing constraints\n", SCIPconshdlrGetName(conshdlr));
       return SCIP_OKAY;
