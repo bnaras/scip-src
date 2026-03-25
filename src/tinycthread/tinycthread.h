@@ -79,6 +79,34 @@ extern "C" {
   #define _XPG6
 #endif
 
+/* Prefix C11 thread names to avoid collision with glibc's <threads.h>.
+ * R 4.5+ compiles C with -std=gnu2x, which makes glibc expose C11/C23
+ * thread functions (mtx_init, etc.) with a different mtx_t layout than
+ * tinycthread's pthread_mutex_t-based mtx_t. The name collision causes
+ * glibc's version to silently override tinycthread's at link time. */
+#define mtx_init       tct_mtx_init
+#define mtx_destroy    tct_mtx_destroy
+#define mtx_lock       tct_mtx_lock
+#define mtx_unlock     tct_mtx_unlock
+#define mtx_trylock    tct_mtx_trylock
+#define mtx_timedlock  tct_mtx_timedlock
+#define cnd_init       tct_cnd_init
+#define cnd_destroy    tct_cnd_destroy
+#define cnd_signal     tct_cnd_signal
+#define cnd_broadcast  tct_cnd_broadcast
+#define cnd_wait       tct_cnd_wait
+#define cnd_timedwait  tct_cnd_timedwait
+#define thrd_create    tct_thrd_create
+#define thrd_exit      tct_thrd_exit
+#define thrd_join      tct_thrd_join
+#define thrd_sleep     tct_thrd_sleep
+#define thrd_yield     tct_thrd_yield
+#define tss_create     tct_tss_create
+#define tss_delete     tct_tss_delete
+#define tss_get        tct_tss_get
+#define tss_set        tct_tss_set
+#define call_once      tct_call_once
+
 /* Generic includes */
 #include <time.h>
 
