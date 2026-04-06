@@ -59,7 +59,9 @@
 #include "scip/cons_nonlinear.h"
 #include "scip/cons_linear.h"
 #include "scip/scip_mem.h"
+#ifdef TPI_TNY
 #include "tinycthread/tinycthread.h"
+#endif
 
 /** struct for nauty callback */
 struct NAUTY_Data

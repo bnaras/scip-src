@@ -76,7 +76,9 @@
 #include "scip/cons_linear.h"
 #include "scip/scip_mem.h"
 #include "scip/symmetry_graph.h"
+#ifdef TPI_TNY
 #include "tinycthread/tinycthread.h"
+#endif
 
 /** struct for symmetry callback */
 struct SYMMETRY_Data
