@@ -36,6 +36,7 @@
 #include "blockmemshell/memory.h"
 #include "scip/pub_message.h"
 #include "scip/pub_misc.h"
+#include "r_streams.h"
 #include <omp.h>
 
 /* macros for direct access */
@@ -583,7 +584,7 @@ SCIP_RETCODE SCIPtpiCollectJobs(
    else
    {
       /* given jobid was not submitted */
-      printf("err1");
+      Rprintf("err1");
       retcode = SCIP_ERROR;
    }
 
