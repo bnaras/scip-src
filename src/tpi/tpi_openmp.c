@@ -415,14 +415,14 @@ SCIP_RETCODE SCIPtpiBroadcastCondition(
 
 /** returns the number of threads */
 int SCIPtpiGetNumThreads(
-   )
+   void)
 {
    return omp_get_num_threads();
 }
 
 /** returns the thread number */
 int SCIPtpiGetThreadNum(
-   )
+   void)
 {
    return omp_get_thread_num();
 }
