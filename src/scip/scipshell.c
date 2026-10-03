@@ -475,7 +475,7 @@ SCIP_RETCODE SCIPprocessShellArguments(
          }
          else
          {
-            printf("Thread limit parameter '-t' followed by something that is not an integer\n");
+            Rprintf("Thread limit parameter '-t' followed by something that is not an integer\n");
             paramerror = TRUE;
          }
       }
